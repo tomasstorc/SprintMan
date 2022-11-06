@@ -3,9 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.digitalContentSchema = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const validate_url_1 = __importDefault(require("../utils/validate-url"));
-const digitalContentSchema = new mongoose_1.default.Schema({
+exports.digitalContentSchema = new mongoose_1.default.Schema({
     name: {
         type: String,
         required: [true, "Name is required"],
@@ -17,5 +18,5 @@ const digitalContentSchema = new mongoose_1.default.Schema({
         validate: [validate_url_1.default, "Invalid link provided"],
     },
 });
-const DigitalContent = mongoose_1.default.model("DigitalContent", digitalContentSchema);
+const DigitalContent = mongoose_1.default.model("DigitalContent", exports.digitalContentSchema);
 exports.default = DigitalContent;

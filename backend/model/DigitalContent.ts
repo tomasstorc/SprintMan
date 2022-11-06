@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import IDigitalContent from "../interface/digital-content";
 import validateUrl from "../utils/validate-url";
 
-const digitalContentSchema = new mongoose.Schema<IDigitalContent>({
+export const digitalContentSchema = new mongoose.Schema<IDigitalContent>({
   name: {
     type: String,
     required: [true, "Name is required"],

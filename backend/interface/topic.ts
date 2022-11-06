@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import IDigitalContent from "./digital-content";
 
 export default interface ITopic {
   name: string;
-  materials: Array<mongoose.Schema.Types.ObjectId>;
+  materials: IDigitalContent;
 }
