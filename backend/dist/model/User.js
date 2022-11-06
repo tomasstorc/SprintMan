@@ -24,5 +24,5 @@ const userSchema = new mongoose_1.default.Schema({
         validate: [validate_password_1.default, "Password did not meet minimum requirements"],
     },
 });
-const User = mongoose_1.default.model("users", userSchema);
+const User = mongoose_1.default.model("User", userSchema);
 exports.default = User;

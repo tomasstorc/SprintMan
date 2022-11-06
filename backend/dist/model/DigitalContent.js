@@ -17,5 +17,5 @@ const digitalContentSchema = new mongoose_1.default.Schema({
         validate: [validate_url_1.default, "Invalid link provided"],
     },
 });
-const DigitalContent = mongoose_1.default.model("digitalContents", digitalContentSchema);
+const DigitalContent = mongoose_1.default.model("DigitalContent", digitalContentSchema);
 exports.default = DigitalContent;

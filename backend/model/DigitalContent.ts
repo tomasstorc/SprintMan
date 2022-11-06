@@ -15,5 +15,5 @@ const digitalContentSchema = new mongoose.Schema<IDigitalContent>({
   },
 });
 
-const DigitalContent = mongoose.model("digitalContents", digitalContentSchema);
+const DigitalContent = mongoose.model("DigitalContent", digitalContentSchema);
 export default DigitalContent;
