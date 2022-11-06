@@ -15,6 +15,8 @@ const userSchema = new mongoose_1.default.Schema({
     name: {
         type: String,
         required: [true, "Name is required"],
+        min: [3, "Nmae must be atleast 3 characters long"],
+        max: [30, "Maximux characters exceeded"],
     },
     password: {
         type: String,
@@ -22,3 +24,5 @@ const userSchema = new mongoose_1.default.Schema({
         validate: [validate_password_1.default, "Password did not meet minimum requirements"],
     },
 });
+const User = mongoose_1.default.model("users", userSchema);
+exports.default = User;

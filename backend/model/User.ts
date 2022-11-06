@@ -12,6 +12,8 @@ const userSchema = new mongoose.Schema<IUser>({
   name: {
     type: String,
     required: [true, "Name is required"],
+    min: [3, "Nmae must be atleast 3 characters long"],
+    max: [30, "Maximux characters exceeded"],
   },
   password: {
     type: String,
@@ -19,3 +21,6 @@ const userSchema = new mongoose.Schema<IUser>({
     validate: [validatePassword, "Password did not meet minimum requirements"],
   },
 });
+
+const User = mongoose.model("users", userSchema);
+export default User;
