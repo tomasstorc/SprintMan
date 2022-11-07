@@ -23,6 +23,13 @@ const userSchema = new mongoose_1.default.Schema({
         required: [true, "Password is required"],
         validate: [validate_password_1.default, "Password did not meet minimum requirements"],
     },
+    role: {
+        type: String,
+        enum: {
+            values: ["student", "editor", "admin"],
+            message: `{VALUE} is not valid, must be studnet, admin. or editor`,
+        },
+    },
 });
 const User = mongoose_1.default.model("User", userSchema);
 exports.default = User;

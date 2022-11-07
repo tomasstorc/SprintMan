@@ -20,6 +20,13 @@ const userSchema = new mongoose.Schema<IUser>({
     required: [true, "Password is required"],
     validate: [validatePassword, "Password did not meet minimum requirements"],
   },
+  role: {
+    type: String,
+    enum: {
+      values: ["student", "editor", "admin"],
+      message: `{VALUE} is not valid, must be studnet, admin. or editor`,
+    },
+  },
 });
 
 const User = mongoose.model("User", userSchema);
