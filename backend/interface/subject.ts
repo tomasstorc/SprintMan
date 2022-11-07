@@ -10,6 +10,6 @@ export default interface ISubject {
   supervisor: string;
   teacher: string;
   goal: string;
-  materials?: IDigitalContent;
-  topics?: ITopic;
+  materials?: Array<IDigitalContent>;
+  topics?: Array<ITopic>;
 }
