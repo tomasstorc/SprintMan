@@ -1,8 +1,10 @@
+import IProgramme from "../interface/programme";
+
 export default class SuccessResponse {
   private status;
   private data;
   private errors: Array<undefined>;
-  constructor(status: string, data?: [] | string) {
+  constructor(status: string, data?: Array<any> | string | Object) {
     this.status = status;
     this.data = data || [];
     this.errors = [];
