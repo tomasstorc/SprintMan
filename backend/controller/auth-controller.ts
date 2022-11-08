@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import bcrypt from "bcrypt";
+import passport from "passport";
 import jwt from "jsonwebtoken";
 import User from "../model/User";
 import { CallbackError, Model } from "mongoose";
@@ -106,5 +107,28 @@ router.post("/login", (req: Request, res: Response) => {
     }
   );
 });
+
+router.get(
+  "/facebook",
+  passport.authenticate("facebook-auth", { scope: "email" })
+);
+
+router.get(
+  "/facebook/callback",
+  passport.authenticate("facebook-auth", { session: false }),
+
+  (req: Request, res: Response) => {
+    const payload = {
+      email: req?.user?.email,
+      name: req?.user?.name,
+      role: req?.user?.role,
+    };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+    res.cookie("token", token);
+    res.redirect("/");
+  }
+);
 
 export default router;

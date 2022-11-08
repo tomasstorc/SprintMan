@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const passport_1 = __importDefault(require("passport"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const User_1 = __importDefault(require("../model/User"));
 const validate_password_1 = __importDefault(require("../utils/validate-password"));
@@ -90,5 +91,19 @@ router.post("/login", (req, res) => {
             });
         }
     });
+});
+router.get("/facebook", passport_1.default.authenticate("facebook-auth", { scope: "email" }));
+router.get("/facebook/callback", passport_1.default.authenticate("facebook-auth", { session: false }), (req, res) => {
+    var _a, _b, _c;
+    const payload = {
+        email: (_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.email,
+        name: (_b = req === null || req === void 0 ? void 0 : req.user) === null || _b === void 0 ? void 0 : _b.name,
+        role: (_c = req === null || req === void 0 ? void 0 : req.user) === null || _c === void 0 ? void 0 : _c.role,
+    };
+    const token = jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET, {
+        expiresIn: "7d",
+    });
+    res.cookie("token", token);
+    res.redirect("/");
 });
 exports.default = router;

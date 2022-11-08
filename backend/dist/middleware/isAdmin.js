@@ -5,7 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const error_response_1 = __importDefault(require("../response/error-response"));
 const isAdmin = (req, res, next) => {
-    if (req.user.role === "admin") {
+    var _a;
+    if (((_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.role) === "admin") {
         next();
     }
     else {
