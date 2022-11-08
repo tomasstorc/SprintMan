@@ -14,8 +14,8 @@ const programme_controller_1 = __importDefault(require("./controller/programme-c
 const User_1 = __importDefault(require("./model/User"));
 dotenv_1.default.config();
 passport_1.default.use("facebook-auth", new FacebookStrategy({
-    clientID: process.env.FB_APP_ID,
-    clientSecret: process.env.FB_APP_SECRET,
+    clientID: process.env.FB_APP_ID || "",
+    clientSecret: process.env.FB_APP_SECRET || "",
     callbackURL: "/api/auth/facebook/callback",
     profileFields: ["id", "displayName", "email", "picture"],
 }, (accessToken, refreshToken, profile, done) => {
