@@ -4,6 +4,10 @@ on:
       - closed
     branches: [main]
 
+  push:
+    branches:
+      - main
+
   workflow_dispatch:
 
 jobs:
@@ -20,7 +24,7 @@ jobs:
 
       - name: "build fe"
         run: |
-          cd frontned 
+          cd frontend
           npm ci
           npm run build
           cd ..
@@ -36,7 +40,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: "docker build"
-        run: docker build . -t tomasstorc/subjectman:latest
+        run: docker build . -t tomasstorc/subjectman:latest --build-arg fbappid=${{ secrets.FB_APP_ID }} --build-arg dburl=${{ secrets.DB_URL }}
 
       - name: "docker push"
         run: docker push tomasstorc/subjectman:latest
