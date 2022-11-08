@@ -73,10 +73,9 @@ router.post("/login", (req: Request, res: Response) => {
     { email: body.email },
     (err: Error | undefined, foundUser: IUser | undefined) => {
       if (!foundUser) {
-        res.status(400).json({
-          status: "error",
-          errors: ["username or password incorrect"],
-        });
+        res
+          .status(401)
+          .json(new ErrorResponse("username or password incorrect"));
       } else if (err) {
         res.status(400).json(new ErrorResponse(err));
       } else {
@@ -88,7 +87,7 @@ router.post("/login", (req: Request, res: Response) => {
               res.status(400).json(new ErrorResponse(err));
             } else if (!result) {
               res
-                .status(400)
+                .status(401)
                 .json(new ErrorResponse("username or password incorrect"));
             } else {
               const payload = {

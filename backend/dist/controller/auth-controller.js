@@ -59,10 +59,9 @@ router.post("/login", (req, res) => {
     const body = req.body;
     User_1.default.findOne({ email: body.email }, (err, foundUser) => {
         if (!foundUser) {
-            res.status(400).json({
-                status: "error",
-                errors: ["username or password incorrect"],
-            });
+            res
+                .status(401)
+                .json(new error_response_1.default("username or password incorrect"));
         }
         else if (err) {
             res.status(400).json(new error_response_1.default(err));
@@ -74,7 +73,7 @@ router.post("/login", (req, res) => {
                 }
                 else if (!result) {
                     res
-                        .status(400)
+                        .status(401)
                         .json(new error_response_1.default("username or password incorrect"));
                 }
                 else {
