@@ -15,8 +15,7 @@ const router = express.Router();
 
 router.post(
   "/register",
-  isAuthenticated,
-  isAdmin,
+
   (req: Request, res: Response) => {
     const body = req.body;
 
