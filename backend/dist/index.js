@@ -12,6 +12,7 @@ const db_connect_1 = __importDefault(require("./utils/db-connect"));
 const auth_controller_1 = __importDefault(require("./controller/auth-controller"));
 const programme_controller_1 = __importDefault(require("./controller/programme-controller"));
 const User_1 = __importDefault(require("./model/User"));
+const path_1 = __importDefault(require("path"));
 dotenv_1.default.config();
 passport_1.default.use("facebook-auth", new FacebookStrategy({
     clientID: process.env.FB_APP_ID || "",
@@ -42,6 +43,7 @@ app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 app.use(passport_1.default.initialize());
+app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
 const PORT = process.env.PORT || 8000;
 (0, db_connect_1.default)();
 app.use("/api/auth", auth_controller_1.default);

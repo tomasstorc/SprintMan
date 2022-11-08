@@ -10,6 +10,7 @@ import authController from "./controller/auth-controller";
 import programmeController from "./controller/programme-controller";
 import User from "./model/User";
 import { CallbackError } from "mongoose";
+import path from "path";
 
 dotenv.config();
 
@@ -54,6 +55,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 app.use(passport.initialize());
+app.use(express.static(path.join(__dirname, "public")));
 
 const PORT = process.env.PORT || 8000;
 
