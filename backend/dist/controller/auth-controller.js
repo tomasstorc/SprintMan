@@ -103,6 +103,7 @@ router.get("/facebook/callback", passport_1.default.authenticate("facebook-auth"
     const token = jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET, {
         expiresIn: "7d",
     });
-    res.status(200).json(new success_response_1.default("logged in", token));
+    res.cookie("token", token);
+    res.redirect("/");
 });
 exports.default = router;

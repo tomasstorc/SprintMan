@@ -126,7 +126,8 @@ router.get(
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
-    res.status(200).json(new SuccessResponse("logged in", token));
+    res.cookie("token", token);
+    res.redirect("/");
   }
 );
 
