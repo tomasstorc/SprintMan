@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const validate_url_1 = __importDefault(require("../utils/validate-url"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const programmeSchema = new mongoose_1.default.Schema({
     name: {
@@ -36,6 +37,10 @@ const programmeSchema = new mongoose_1.default.Schema({
         required: [true, "Length is reqired"],
         min: [3, "Minimum Length is 3"],
         max: [6, "Maximnum length is 6"],
+    },
+    imageUrl: {
+        type: String,
+        validate: [validate_url_1.default, "invalid URL"],
     },
     osubjects: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "Subject" }],
     ssubjects: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "Subject" }],

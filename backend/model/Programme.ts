@@ -1,4 +1,5 @@
 import IProgramme from "../interface/programme";
+import validateUrl from "../utils/validate-url";
 
 import mongoose from "mongoose";
 
@@ -35,6 +36,10 @@ const programmeSchema = new mongoose.Schema<IProgramme>({
     min: [3, "Minimum Length is 3"],
     max: [6, "Maximnum length is 6"],
   },
+  imageUrl: {
+    type: String,
+    validate: [validateUrl, "invalid URL"],
+
   osubjects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Subject" }],
   ssubjects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Subject" }],
   ossubjects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Subject" }],

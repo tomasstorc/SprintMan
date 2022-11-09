@@ -20,10 +20,25 @@ router.get("/", (req, res) => {
         if (programmes.length < 1) {
             return res
                 .status(200)
-                .json(new success_response_1.default("success", "no study programmes found"));
+                .json(new success_response_1.default("empty", "no study programmes found"));
         }
         else {
             return res.status(200).json(new success_response_1.default("success", programmes));
+        }
+    });
+});
+router.get("/:id", (req, res) => {
+    Programme_1.default.findById(req.params.id, (err, foundProgramme) => {
+        if (err) {
+            return res.status(400).json(new error_response_1.default(err));
+        }
+        if (!foundProgramme) {
+            return res.status(404).json(new error_response_1.default("not found"));
+        }
+        else {
+            return res
+                .status(200)
+                .json(new success_response_1.default("succesws", foundProgramme));
         }
     });
 });
@@ -40,7 +55,6 @@ router.post("/", isAuthenticated_1.default, isAdminOrEditor_1.default, (req, res
 });
 router.put("/:id", isAuthenticated_1.default, isAdminOrEditor_1.default, (req, res) => {
     Programme_1.default.findByIdAndUpdate({ _id: req.params.id }, req.body, { runValidators: true, new: true, rawResult: true }, (err, updatedProgramme) => {
-        console.log(updatedProgramme);
         if (err) {
             return res.status(400).json(new error_response_1.default(err));
         }
