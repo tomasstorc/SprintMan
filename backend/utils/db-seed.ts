@@ -59,3 +59,5 @@ const dbSeed = () => {
     }
   );
 };
+
+export default dbSeed;
