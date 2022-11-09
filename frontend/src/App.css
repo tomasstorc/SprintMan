@@ -1,0 +1,15 @@
+.subject-container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+.icon {
+  grid-row: 3;
+  grid-column: 12;
+  width: 8rem;
+}
+.subject-text {
+  color: white;
+  grid-row: 1;
+  grid-column: 1/12;
+}

@@ -57,6 +57,7 @@ router.post("/register", isAuthenticated_1.default, isAdmin_1.default, (req, res
 });
 router.post("/login", (req, res) => {
     const body = req.body;
+    console.log(body);
     User_1.default.findOne({ email: body.email }, (err, foundUser) => {
         if (!foundUser) {
             res.status(400).json({
