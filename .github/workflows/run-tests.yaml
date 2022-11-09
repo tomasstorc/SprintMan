@@ -25,5 +25,6 @@ jobs:
           touch .env
           echo DB_URL=${{ secrets.DB_URL }} >> .env
           echo TEST_PW=${{ secrets.TEST_PW }} >> .env
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
           npm i
           npm test
