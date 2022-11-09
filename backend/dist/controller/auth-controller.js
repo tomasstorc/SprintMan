@@ -56,6 +56,7 @@ router.post("/register", (req, res) => {
 });
 router.post("/login", (req, res) => {
     const body = req.body;
+    console.log(body);
     User_1.default.findOne({ email: body.email }, (err, foundUser) => {
         if (!foundUser) {
             res
