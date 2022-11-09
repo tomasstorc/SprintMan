@@ -17,8 +17,7 @@ const app_1 = __importDefault(require("../app"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-jest.setTimeout(50000);
-describe("test study programme API", () => {
+describe("Subject API test", () => {
     beforeEach(() => __awaiter(void 0, void 0, void 0, function* () {
         yield mongoose_1.default.connect(process.env.DB_URL);
     }));
@@ -26,7 +25,7 @@ describe("test study programme API", () => {
         yield mongoose_1.default.connection.close();
     }));
     let token;
-    let programmeId;
+    let subjectId;
     test("login", () => __awaiter(void 0, void 0, void 0, function* () {
         let loginCreds = {
             email: "tomas.storc@gmail.com",
@@ -36,18 +35,20 @@ describe("test study programme API", () => {
         token = res.body.data;
         expect(res.body).toHaveProperty("data");
     }));
-    test("create new programme", () => __awaiter(void 0, void 0, void 0, function* () {
-        let newProgramme = {
-            name: "Test study programme",
-            description: "this is a new study programme",
+    it("create new subject", () => __awaiter(void 0, void 0, void 0, function* () {
+        let subjectTest = {
+            name: "Test subject",
+            goal: "this is a goal",
             language: "czech",
-            degree: "Ing.",
-            length: 3,
+            degree: "Bc.",
+            teacher: "Jan Novy",
+            supervisor: "Petr Maly",
+            credits: 5,
         };
         const res = yield (0, supertest_1.default)(app_1.default)
-            .post("/api/programme")
+            .post("/api/subject")
             .set("Authorization", `Bearer ${token}`)
-            .send(newProgramme);
+            .send(subjectTest);
         expect(res.statusCode).toBe(201);
         expect(res.body.data).toHaveProperty("_id");
     }));

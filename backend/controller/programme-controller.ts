@@ -47,7 +47,7 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/", isAuthenticated, isAdminOrEditor, (req, res) => {
-  const newProgramme = new Programme(...req.body);
+  const newProgramme = new Programme(req.body);
   if (newProgramme.degree === "Ing.")
     newProgramme.icon =
       "https://subjectmansa.blob.core.windows.net/subjectmanpics/ion_school.png";

@@ -1,14 +1,13 @@
 import request from "supertest";
-import IProgramme from "../../interface/programme";
+import ISubject from "../../interface/subject";
 import app from "../app";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import IUser from "../../interface/user";
+import { send } from "process";
 
 dotenv.config();
-jest.setTimeout(50000);
-
-describe("test study programme API", () => {
+describe("Subject API test", () => {
   beforeEach(async () => {
     await mongoose.connect(process.env.DB_URL);
   });
@@ -17,7 +16,7 @@ describe("test study programme API", () => {
   });
 
   let token: string;
-  let programmeId: string;
+  let subjectId: string;
   test("login", async () => {
     let loginCreds = {
       email: "tomas.storc@gmail.com",
@@ -27,18 +26,20 @@ describe("test study programme API", () => {
     token = res.body.data;
     expect(res.body).toHaveProperty("data");
   });
-  test("create new programme", async () => {
-    let newProgramme = {
-      name: "Test study programme",
-      description: "this is a new study programme",
+  it("create new subject", async () => {
+    let subjectTest: ISubject = {
+      name: "Test subject",
+      goal: "this is a goal",
       language: "czech",
-      degree: "Ing.",
-      length: 3,
+      degree: "Bc.",
+      teacher: "Jan Novy",
+      supervisor: "Petr Maly",
+      credits: 5,
     };
     const res = await request(app)
-      .post("/api/programme")
+      .post("/api/subject")
       .set("Authorization", `Bearer ${token}`)
-      .send(newProgramme);
+      .send(subjectTest);
 
     expect(res.statusCode).toBe(201);
     expect(res.body.data).toHaveProperty("_id");
