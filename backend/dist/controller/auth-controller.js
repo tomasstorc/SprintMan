@@ -11,8 +11,10 @@ const User_1 = __importDefault(require("../model/User"));
 const validate_password_1 = __importDefault(require("../utils/validate-password"));
 const error_response_1 = __importDefault(require("../response/error-response"));
 const success_response_1 = __importDefault(require("../response/success-response"));
+const isAuthenticated_1 = __importDefault(require("../middleware/isAuthenticated"));
+const isAdmin_1 = __importDefault(require("../middleware/isAdmin"));
 const router = express_1.default.Router();
-router.post("/register", (req, res) => {
+router.post("/register", isAuthenticated_1.default, isAdmin_1.default, (req, res) => {
     const body = req.body;
     if (!(0, validate_password_1.default)(body.password)) {
         return res
