@@ -8,8 +8,10 @@ import IUser from "./interface/user";
 import dbConnect from "./utils/db-connect";
 import authController from "./controller/auth-controller";
 import programmeController from "./controller/programme-controller";
+import subjectController from "./controller/subject-controller";
 import User from "./model/User";
 import { CallbackError } from "mongoose";
+import path from "path";
 
 dotenv.config();
 
@@ -54,6 +56,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 app.use(passport.initialize());
+app.use(express.static(path.join(__dirname, "public")));
 
 const PORT = process.env.PORT || 8000;
 
@@ -61,6 +64,7 @@ dbConnect();
 
 app.use("/api/auth", authController);
 app.use("/api/programme", programmeController);
+app.use("/api/subject", subjectController);
 
 app.listen(PORT, () => {
   console.log(`server running at port ${PORT}`);

@@ -21,15 +21,36 @@ router.get("/", (req, res) => {
     if (programmes.length < 1) {
       return res
         .status(200)
-        .json(new SuccessResponse("success", "no study programmes found"));
+        .json(new SuccessResponse("empty", "no study programmes found"));
     } else {
       return res.status(200).json(new SuccessResponse("success", programmes));
     }
   });
 });
 
+router.get("/:id", (req, res) => {
+  Programme.findById(
+    req.params.id,
+    (err: CallbackError, foundProgramme: IProgramme | undefined) => {
+      if (err) {
+        return res.status(400).json(new ErrorResponse(err));
+      }
+      if (!foundProgramme) {
+        return res.status(404).json(new ErrorResponse("not found"));
+      } else {
+        return res
+          .status(200)
+          .json(new SuccessResponse("succesws", foundProgramme));
+      }
+    }
+  );
+});
+
 router.post("/", isAuthenticated, isAdminOrEditor, (req, res) => {
   const newProgramme = new Programme(req.body);
+  if (newProgramme.degree === "Ing.")
+    newProgramme.icon =
+      "https://subjectmansa.blob.core.windows.net/subjectmanpics/ion_school.png";
   newProgramme.save(
     (err: CallbackError | undefined, programmeCreated: IProgramme) => {
       if (err) {
@@ -48,8 +69,6 @@ router.put("/:id", isAuthenticated, isAdminOrEditor, (req, res) => {
     req.body,
     { runValidators: true, new: true, rawResult: true },
     (err: CallbackError, updatedProgramme) => {
-      console.log(updatedProgramme);
-
       if (err) {
         return res.status(400).json(new ErrorResponse(err));
       }

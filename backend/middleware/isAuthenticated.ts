@@ -12,7 +12,7 @@ const isAuthenticated: RequestHandler = (
   const token = authHeader && authHeader.split(" ")[1];
   if (!token) return res.status(401).json(new ErrorResponse("unauthorized"));
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, user: any) => {
     if (err) return res.status(403).json({ status: "error", errors: [err] });
 
     req.user = user;

@@ -7,6 +7,9 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-latest
+    env:
+      DB_URL: ${{ secrets.DB_URL }}
+      TEST_PW: ${{ secrets.TEST_PW }}
     steps:
       - name: "checkout"
         uses: actions/checkout@v2

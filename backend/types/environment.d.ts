@@ -7,6 +7,7 @@ declare global {
       DB_URL: string;
       FB_APP_ID: string;
       FB_APP_SECRET: string;
+      TEST_PW: string;
     }
   }
   namespace Express {
