@@ -19,7 +19,7 @@ const programmeSchema = new mongoose.Schema<IProgramme>({
   degree: {
     type: String,
     enum: {
-      values: ["Bc.", "Msc."],
+      values: ["Bc.", "Ing."],
       message: `{VALUE} is not valid, must be Bc. or Msc.`,
     },
   },
@@ -33,13 +33,18 @@ const programmeSchema = new mongoose.Schema<IProgramme>({
   length: {
     type: Number,
     required: [true, "Length is reqired"],
-    min: [3, "Minimum Length is 3"],
-    max: [6, "Maximnum length is 6"],
+    min: [2, "Minimum Length is 2"],
+    max: [3, "Maximnum length is 3"],
   },
   imageUrl: {
     type: String,
     validate: [validateUrl, "invalid URL"],
-
+  },
+  icon: {
+    type: String,
+    default:
+      "https://subjectmansa.blob.core.windows.net/subjectmanpics/ion_school-1.png",
+  },
   osubjects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Subject" }],
   ssubjects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Subject" }],
   ossubjects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Subject" }],

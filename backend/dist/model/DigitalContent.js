@@ -15,6 +15,7 @@ exports.digitalContentSchema = new mongoose_1.default.Schema({
     },
     link: {
         type: String,
+        required: [true, "link is required"],
         validate: [validate_url_1.default, "Invalid link provided"],
     },
 });

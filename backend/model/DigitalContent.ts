@@ -11,6 +11,7 @@ export const digitalContentSchema = new mongoose.Schema<IDigitalContent>({
   },
   link: {
     type: String,
+    required: [true, "link is required"],
     validate: [validateUrl, "Invalid link provided"],
   },
 });
