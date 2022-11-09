@@ -4,6 +4,8 @@ on:
       - opened
     branches: [main]
 
+  workflow_dispatch:
+
 jobs:
   tests:
     runs-on: ubuntu-latest
@@ -22,6 +24,6 @@ jobs:
           cd backend
           touch .env
           echo DB_URL=${{ secrets.DB_URL }} >> .env
-          echo TEST_PW=${{ secrets.TEST_PW }} >> .en
+          echo TEST_PW=${{ secrets.TEST_PW }} >> .env
           npm i
           npm test

@@ -25,7 +25,10 @@ router.get("/", (req, res) => {
         else {
             return res.status(200).json(new success_response_1.default("success", programmes));
         }
-    });
+    })
+        .populate("osubjects")
+        .populate("ssubjects")
+        .populate("ossubjects");
 });
 router.get("/:id", (req, res) => {
     Programme_1.default.findById(req.params.id, (err, foundProgramme) => {
