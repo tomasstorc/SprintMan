@@ -41,10 +41,10 @@ const programmeSchema = new mongoose_1.default.Schema({
     imageUrl: {
         type: String,
         validate: [validate_url_1.default, "invalid URL"],
-    },
-    osubjects: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "Subject" }],
-    ssubjects: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "Subject" }],
-    ossubjects: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "Subject" }],
+        osubjects: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "Subject" }],
+        ssubjects: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "Subject" }],
+        ossubjects: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "Subject" }],
+    }
 });
 const Programme = mongoose_1.default.model("Programme", programmeSchema);
 exports.default = Programme;

@@ -40,7 +40,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: "docker build"
-        run: docker build . -t tomasstorc/subjectman:latest --build-arg fbappid=${{ secrets.FB_APP_ID }} --build-arg dburl=${{ secrets.DB_URL }}
+        run: docker build . -t tomasstorc/subjectman:latest
 
       - name: "docker push"
         run: docker push tomasstorc/subjectman:latest
