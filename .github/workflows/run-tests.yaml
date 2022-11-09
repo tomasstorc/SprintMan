@@ -7,9 +7,7 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-latest
-    env:
-      DB_URL: ${{ secrets.DB_URL }}
-      TEST_PW: ${{ secrets.TEST_PW }}
+
     steps:
       - name: "checkout"
         uses: actions/checkout@v2
@@ -22,5 +20,8 @@ jobs:
       - name: "test backend"
         run: |
           cd backend
+          touch .env
+          echo DB_URL=${{ secrets.DB_URL }} >> .env
+          echo TEST_PW=${{ secrets.TEST_PW }} >> .en
           npm i
           npm test
