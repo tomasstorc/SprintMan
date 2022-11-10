@@ -1,5 +1,6 @@
 import request from "supertest";
 import IProgramme from "../../interface/programme";
+import ISubject from "../../interface/subject";
 import app from "../app";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -18,6 +19,8 @@ describe("test study programme API", () => {
 
   let token: string;
   let programmeId: string;
+  let subjectId: string;
+
   test("login", async () => {
     let loginCreds = {
       email: "tomas.storc@gmail.com",
@@ -42,6 +45,26 @@ describe("test study programme API", () => {
 
     programmeId = res.body.data._id;
 
+    expect(res.statusCode).toBe(201);
+    expect(res.body.data).toHaveProperty("_id");
+  });
+
+  it("create new subject", async () => {
+    let subjectTest: ISubject = {
+      name: "Test subject",
+      goal: "this is a goal",
+      language: "czech",
+      degree: "Bc.",
+      teacher: "Jan Novy",
+      supervisor: "Petr Maly",
+      credits: 5,
+    };
+    const res = await request(app)
+      .post("/api/subject")
+      .set("Authorization", `Bearer ${token}`)
+      .send(subjectTest);
+
+    subjectId = res.body.data._id;
     expect(res.statusCode).toBe(201);
     expect(res.body.data).toHaveProperty("_id");
   });

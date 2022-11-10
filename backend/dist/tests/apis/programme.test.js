@@ -27,6 +27,7 @@ describe("test study programme API", () => {
     }));
     let token;
     let programmeId;
+    let subjectId;
     test("login", () => __awaiter(void 0, void 0, void 0, function* () {
         let loginCreds = {
             email: "tomas.storc@gmail.com",
@@ -49,6 +50,24 @@ describe("test study programme API", () => {
             .set("Authorization", `Bearer ${token}`)
             .send(newProgramme);
         programmeId = res.body.data._id;
+        expect(res.statusCode).toBe(201);
+        expect(res.body.data).toHaveProperty("_id");
+    }));
+    it("create new subject", () => __awaiter(void 0, void 0, void 0, function* () {
+        let subjectTest = {
+            name: "Test subject",
+            goal: "this is a goal",
+            language: "czech",
+            degree: "Bc.",
+            teacher: "Jan Novy",
+            supervisor: "Petr Maly",
+            credits: 5,
+        };
+        const res = yield (0, supertest_1.default)(app_1.default)
+            .post("/api/subject")
+            .set("Authorization", `Bearer ${token}`)
+            .send(subjectTest);
+        subjectId = res.body.data._id;
         expect(res.statusCode).toBe(201);
         expect(res.body.data).toHaveProperty("_id");
     }));
