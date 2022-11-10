@@ -66,6 +66,10 @@ app.use("/api/auth", authController);
 app.use("/api/programme", programmeController);
 app.use("/api/subject", subjectController);
 
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "public/index.html"));
+});
+
 app.listen(PORT, () => {
   console.log(`server running at port ${PORT}`);
 });

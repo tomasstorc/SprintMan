@@ -40,7 +40,17 @@ describe("test study programme API", () => {
       .set("Authorization", `Bearer ${token}`)
       .send(newProgramme);
 
+    programmeId = res.body.data._id;
+
     expect(res.statusCode).toBe(201);
     expect(res.body.data).toHaveProperty("_id");
+  });
+
+  test("delete created programme", async () => {
+    const res = await request(app)
+      .delete(`/api/programme/${programmeId}`)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(res.statusCode).toBe(204);
   });
 });

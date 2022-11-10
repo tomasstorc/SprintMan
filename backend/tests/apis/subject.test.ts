@@ -41,7 +41,16 @@ describe("Subject API test", () => {
       .set("Authorization", `Bearer ${token}`)
       .send(subjectTest);
 
+    subjectId = res.body.data._id;
     expect(res.statusCode).toBe(201);
     expect(res.body.data).toHaveProperty("_id");
+  });
+
+  test("delete created programme", async () => {
+    const res = await request(app)
+      .delete(`/api/subject/${subjectId}`)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(res.statusCode).toBe(204);
   });
 });

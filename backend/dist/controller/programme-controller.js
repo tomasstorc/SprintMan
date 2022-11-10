@@ -74,7 +74,7 @@ router.delete("/:id", isAuthenticated_1.default, isAdmin_1.default, (req, res) =
         if (err) {
             return res.status(400).json(new error_response_1.default(err));
         }
-        return res.status(204);
+        return res.status(204).json(new success_response_1.default("deleted"));
     });
 });
 router.post("/:id/osubject", isAuthenticated_1.default, isAdminOrEditor_1.default, (req, res) => {
