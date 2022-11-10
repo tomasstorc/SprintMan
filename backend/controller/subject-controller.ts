@@ -196,33 +196,17 @@ router.post(
   isAdminOrEditor,
   (req: Request, res: Response) => {
     if (req.body.topicId) {
-      Subject.findById(
-        req.params.id,
-        (err: CallbackError | undefined, foundSubject: any) => {
+      Subject.updateOne(
+        { "topics._id": req.body.topicId },
+        { $push: { "topic.$.material": req.body.material } },
+        { runValidators: true, new: true, rawResult: true },
+        (err: CallbackError, updatedSubject: any) => {
           if (err) {
             return res.status(400).json(new ErrorResponse(err));
           }
-          const topic = foundSubject.topics.filter(
-            (topic: any) =>
-              new mongoose.Schema.Types.ObjectId(req.params.topicId) ===
-              topic._id
-          );
-          foundSubject.topics.pull(topic);
-          topic.push(req.body.material);
-          foundSubject.topics.push(topic);
-          foundSubject.save(
-            (
-              err: CallbackError | undefined,
-              updatedSubject: ISubject | undefined
-            ) => {
-              if (err) {
-                return res.status(400).json(new ErrorResponse(err));
-              }
-              return res
-                .status(200)
-                .json(new SuccessResponse("added", updatedSubject));
-            }
-          );
+          return res
+            .status(200)
+            .json(new SuccessResponse("updated", updatedSubject.value));
         }
       );
     } else {
@@ -252,33 +236,17 @@ router.delete(
   isAdminOrEditor,
   (req: Request, res: Response) => {
     if (req.body.topicId) {
-      Subject.findById(
-        req.params.id,
-        (err: CallbackError | undefined, foundSubject: any) => {
+      Subject.updateOne(
+        { "topics._id": req.body.topicId },
+        { $pull: { "topic.$.material": req.body.material } },
+        { runValidators: true, new: true, rawResult: true },
+        (err: CallbackError, updatedSubject: any) => {
           if (err) {
             return res.status(400).json(new ErrorResponse(err));
           }
-          const topic = foundSubject.topics.filter(
-            (topic: any) =>
-              new mongoose.Schema.Types.ObjectId(req.params.topicId) ===
-              topic._id
-          );
-          foundSubject.topics.pull(topic);
-          topic.pull(req.body.material);
-          foundSubject.topics.push(topic);
-          foundSubject.save(
-            (
-              err: CallbackError | undefined,
-              updatedSubject: ISubject | undefined
-            ) => {
-              if (err) {
-                return res.status(400).json(new ErrorResponse(err));
-              }
-              return res
-                .status(200)
-                .json(new SuccessResponse("added", updatedSubject));
-            }
-          );
+          return res
+            .status(200)
+            .json(new SuccessResponse("updated", updatedSubject.value));
         }
       );
     } else {
