@@ -8,7 +8,6 @@ const Subject_1 = __importDefault(require("../model/Subject"));
 const isAuthenticated_1 = __importDefault(require("../middleware/isAuthenticated"));
 const isAdminOrEditor_1 = __importDefault(require("../middleware/isAdminOrEditor"));
 const isAdmin_1 = __importDefault(require("../middleware/isAdmin"));
-const mongoose_1 = __importDefault(require("mongoose"));
 const error_response_1 = __importDefault(require("../response/error-response"));
 const success_response_1 = __importDefault(require("../response/success-response"));
 const router = express_1.default.Router();
@@ -106,23 +105,13 @@ router.delete("/:id/topic", isAuthenticated_1.default, isAdminOrEditor_1.default
 });
 router.post("/:id/material", isAuthenticated_1.default, isAdminOrEditor_1.default, (req, res) => {
     if (req.body.topicId) {
-        Subject_1.default.findById(req.params.id, (err, foundSubject) => {
+        Subject_1.default.updateOne({ "topics._id": req.body.topicId }, { $push: { "topic.$.material": req.body.material } }, { runValidators: true, new: true, rawResult: true }, (err, updatedSubject) => {
             if (err) {
                 return res.status(400).json(new error_response_1.default(err));
             }
-            const topic = foundSubject.topics.filter((topic) => new mongoose_1.default.Schema.Types.ObjectId(req.params.topicId) ===
-                topic._id);
-            foundSubject.topics.pull(topic);
-            topic.push(req.body.material);
-            foundSubject.topics.push(topic);
-            foundSubject.save((err, updatedSubject) => {
-                if (err) {
-                    return res.status(400).json(new error_response_1.default(err));
-                }
-                return res
-                    .status(200)
-                    .json(new success_response_1.default("added", updatedSubject));
-            });
+            return res
+                .status(200)
+                .json(new success_response_1.default("updated", updatedSubject.value));
         });
     }
     else {
@@ -138,23 +127,13 @@ router.post("/:id/material", isAuthenticated_1.default, isAdminOrEditor_1.defaul
 });
 router.delete("/:id/material", isAuthenticated_1.default, isAdminOrEditor_1.default, (req, res) => {
     if (req.body.topicId) {
-        Subject_1.default.findById(req.params.id, (err, foundSubject) => {
+        Subject_1.default.updateOne({ "topics._id": req.body.topicId }, { $pull: { "topic.$.material": req.body.material } }, { runValidators: true, new: true, rawResult: true }, (err, updatedSubject) => {
             if (err) {
                 return res.status(400).json(new error_response_1.default(err));
             }
-            const topic = foundSubject.topics.filter((topic) => new mongoose_1.default.Schema.Types.ObjectId(req.params.topicId) ===
-                topic._id);
-            foundSubject.topics.pull(topic);
-            topic.pull(req.body.material);
-            foundSubject.topics.push(topic);
-            foundSubject.save((err, updatedSubject) => {
-                if (err) {
-                    return res.status(400).json(new error_response_1.default(err));
-                }
-                return res
-                    .status(200)
-                    .json(new success_response_1.default("added", updatedSubject));
-            });
+            return res
+                .status(200)
+                .json(new success_response_1.default("updated", updatedSubject.value));
         });
     }
     else {
