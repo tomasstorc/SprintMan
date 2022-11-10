@@ -50,6 +50,9 @@ const PORT = process.env.PORT || 8000;
 app.use("/api/auth", auth_controller_1.default);
 app.use("/api/programme", programme_controller_1.default);
 app.use("/api/subject", subject_controller_1.default);
+app.get("*", (req, res) => {
+    res.sendFile(path_1.default.join(__dirname + "public/index.html"));
+});
 app.listen(PORT, () => {
     console.log(`server running at port ${PORT}`);
 });
