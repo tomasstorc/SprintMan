@@ -135,58 +135,39 @@ router.post("/:id/ossubject", isAuthenticated_1.default, isAdminOrEditor_1.defau
     });
 });
 router.delete("/:id/osubject", isAuthenticated_1.default, isAdminOrEditor_1.default, (req, res) => {
-    Programme_1.default.findById(req.params.id, (err, foundProgramme) => {
-        var _a;
+    Programme_1.default.findByIdAndUpdate(req.params.id, {
+        $pull: { osubjects: { $in: req.body.ids } },
+    }, { runValidators: true, new: true, rawResult: true, multi: true }, (err, updatedProgramme) => {
         if (err) {
             return res.status(400).json(new error_response_1.default(err));
         }
-        for (let i = 0; i < req.body.ids.length; i++) {
-            (_a = foundProgramme === null || foundProgramme === void 0 ? void 0 : foundProgramme.osubjects) === null || _a === void 0 ? void 0 : _a.push(req.body.ids[i]);
-        }
-        foundProgramme.save((err, updatedProgramme) => {
-            if (err) {
-                return res.status(400).json(new error_response_1.default(err));
-            }
-            return res
-                .status(200)
-                .json(new success_response_1.default("updated", updatedProgramme));
-        });
+        return res
+            .status(200)
+            .json(new success_response_1.default("updated", updatedProgramme.value));
     });
 });
 router.delete("/:id/ssubject", isAuthenticated_1.default, isAdminOrEditor_1.default, (req, res) => {
-    Programme_1.default.findById(req.params.id, (err, foundProgramme) => {
-        var _a;
+    Programme_1.default.findByIdAndUpdate(req.params.id, {
+        $pull: { ssubjects: { $in: req.body.ids } },
+    }, { runValidators: true, new: true, rawResult: true, multi: true }, (err, updatedProgramme) => {
         if (err) {
             return res.status(400).json(new error_response_1.default(err));
         }
-        for (let i = 0; i < req.body.ids.length; i++) {
-            (_a = foundProgramme === null || foundProgramme === void 0 ? void 0 : foundProgramme.ssubjects) === null || _a === void 0 ? void 0 : _a.push(req.body.ids[i]);
-        }
-        foundProgramme.save((err, updatedProgramme) => {
-            if (err) {
-                return res.status(400).json(new error_response_1.default(err));
-            }
-            return res
-                .status(200)
-                .json(new success_response_1.default("updated", updatedProgramme));
-        });
+        return res
+            .status(200)
+            .json(new success_response_1.default("updated", updatedProgramme.value));
     });
 });
 router.delete("/:id/ossubject", isAuthenticated_1.default, isAdminOrEditor_1.default, (req, res) => {
-    Programme_1.default.findById(req.params.id, (err, foundProgramme) => {
-        var _a;
+    Programme_1.default.findByIdAndUpdate(req.params.id, {
+        $pull: { ossubjects: { $in: req.body.ids } },
+    }, { runValidators: true, new: true, rawResult: true, multi: true }, (err, updatedProgramme) => {
         if (err) {
             return res.status(400).json(new error_response_1.default(err));
         }
-        (_a = foundProgramme === null || foundProgramme === void 0 ? void 0 : foundProgramme.ossubjects) === null || _a === void 0 ? void 0 : _a.filter((item) => !req.body.ids.includes(item));
-        foundProgramme.save((err, updatedProgramme) => {
-            if (err) {
-                return res.status(400).json(new error_response_1.default(err));
-            }
-            return res
-                .status(200)
-                .json(new success_response_1.default("updated", updatedProgramme));
-        });
+        return res
+            .status(200)
+            .json(new success_response_1.default("updated", updatedProgramme.value));
     });
 });
 exports.default = router;

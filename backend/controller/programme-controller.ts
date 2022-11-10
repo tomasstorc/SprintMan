@@ -171,51 +171,37 @@ router.post("/:id/ossubject", isAuthenticated, isAdminOrEditor, (req, res) => {
 });
 
 router.delete("/:id/osubject", isAuthenticated, isAdminOrEditor, (req, res) => {
-  Programme.findById(
+  Programme.findByIdAndUpdate(
     req.params.id,
-    (err: CallbackError | undefined, foundProgramme: any) => {
+    {
+      $pull: { osubjects: { $in: req.body.ids } },
+    },
+    { runValidators: true, new: true, rawResult: true, multi: true },
+    (err: CallbackError | undefined, updatedProgramme: any) => {
       if (err) {
         return res.status(400).json(new ErrorResponse(err));
       }
-
-      for (let i = 0; i < req.body.ids.length; i++) {
-        foundProgramme?.osubjects?.push(req.body.ids[i]);
-      }
-      foundProgramme.save(
-        (err: CallbackError, updatedProgramme: IProgramme) => {
-          if (err) {
-            return res.status(400).json(new ErrorResponse(err));
-          }
-          return res
-            .status(200)
-            .json(new SuccessResponse("updated", updatedProgramme));
-        }
-      );
+      return res
+        .status(200)
+        .json(new SuccessResponse("updated", updatedProgramme.value));
     }
   );
 });
 
 router.delete("/:id/ssubject", isAuthenticated, isAdminOrEditor, (req, res) => {
-  Programme.findById(
+  Programme.findByIdAndUpdate(
     req.params.id,
-    (err: CallbackError | undefined, foundProgramme: any) => {
+    {
+      $pull: { ssubjects: { $in: req.body.ids } },
+    },
+    { runValidators: true, new: true, rawResult: true, multi: true },
+    (err: CallbackError | undefined, updatedProgramme: any) => {
       if (err) {
         return res.status(400).json(new ErrorResponse(err));
       }
-
-      for (let i = 0; i < req.body.ids.length; i++) {
-        foundProgramme?.ssubjects?.push(req.body.ids[i]);
-      }
-      foundProgramme.save(
-        (err: CallbackError, updatedProgramme: IProgramme) => {
-          if (err) {
-            return res.status(400).json(new ErrorResponse(err));
-          }
-          return res
-            .status(200)
-            .json(new SuccessResponse("updated", updatedProgramme));
-        }
-      );
+      return res
+        .status(200)
+        .json(new SuccessResponse("updated", updatedProgramme.value));
     }
   );
 });
@@ -225,27 +211,19 @@ router.delete(
   isAuthenticated,
   isAdminOrEditor,
   (req, res) => {
-    Programme.findById(
+    Programme.findByIdAndUpdate(
       req.params.id,
-      (err: CallbackError | undefined, foundProgramme: any) => {
+      {
+        $pull: { ossubjects: { $in: req.body.ids } },
+      },
+      { runValidators: true, new: true, rawResult: true, multi: true },
+      (err: CallbackError | undefined, updatedProgramme: any) => {
         if (err) {
           return res.status(400).json(new ErrorResponse(err));
         }
-
-        foundProgramme?.ossubjects?.filter(
-          (item: mongoose.Schema.Types.ObjectId) => !req.body.ids.includes(item)
-        );
-
-        foundProgramme.save(
-          (err: CallbackError, updatedProgramme: IProgramme) => {
-            if (err) {
-              return res.status(400).json(new ErrorResponse(err));
-            }
-            return res
-              .status(200)
-              .json(new SuccessResponse("updated", updatedProgramme));
-          }
-        );
+        return res
+          .status(200)
+          .json(new SuccessResponse("updated", updatedProgramme.value));
       }
     );
   }

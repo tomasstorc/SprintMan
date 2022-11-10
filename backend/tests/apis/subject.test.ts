@@ -46,7 +46,7 @@ describe("Subject API test", () => {
     expect(res.body.data).toHaveProperty("_id");
   });
 
-  test("delete created programme", async () => {
+  test("delete created subject", async () => {
     const res = await request(app)
       .delete(`/api/subject/${subjectId}`)
       .set("Authorization", `Bearer ${token}`);
