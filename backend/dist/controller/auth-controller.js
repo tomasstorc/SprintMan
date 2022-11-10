@@ -87,7 +87,7 @@ router.post("/login", (req, res) => {
                         expiresIn: "7d",
                     });
                     res.cookie("token", token);
-                    res.redirect("/");
+                    res.status(200).json(new success_response_1.default("logged in"));
                 }
             });
         }

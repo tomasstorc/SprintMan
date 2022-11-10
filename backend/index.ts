@@ -56,7 +56,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 app.use(passport.initialize());
-app.use(express.static(path.join(__dirname, "public")));
 
 const PORT = process.env.PORT || 8000;
 
@@ -66,9 +65,11 @@ app.use("/api/auth", authController);
 app.use("/api/programme", programmeController);
 app.use("/api/subject", subjectController);
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/public/index.html"));
-});
+//app.use(express.static(path.join(__dirname, "public")));
+
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname + "/public/index.html"));
+// });
 
 app.listen(PORT, () => {
   console.log(`server running at port ${PORT}`);

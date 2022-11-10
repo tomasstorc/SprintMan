@@ -101,7 +101,7 @@ router.post("/login", (req: Request, res: Response) => {
                 expiresIn: "7d",
               });
               res.cookie("token", token);
-              res.redirect("/");
+              res.status(200).json(new SuccessResponse("logged in"));
             }
           }
         );
