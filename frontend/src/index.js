@@ -21,7 +21,7 @@ root.render(
             <Route path="/" element={<StudyPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/administration" element={<AdministrationPage />} />
-            <Route path="/study-programme" element={<StudyProgrammePage />} />
+            <Route path="/program/:id" element={<StudyProgrammePage />} />
             <Route path="/subject" element={<SubjectPage />} />
           </Route>
         </Routes>

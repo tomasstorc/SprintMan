@@ -46,6 +46,13 @@ const programmeSchema = new mongoose_1.default.Schema({
         type: String,
         default: "https://subjectmansa.blob.core.windows.net/subjectmanpics/ion_school-1.png",
     },
+    field: {
+        type: String,
+        enum: {
+            values: ["it", "business"],
+            message: `{VALUE} is not valid, must be it or business`,
+        },
+    },
     osubjects: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "Subject" }],
     ssubjects: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "Subject" }],
     ossubjects: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "Subject" }],
