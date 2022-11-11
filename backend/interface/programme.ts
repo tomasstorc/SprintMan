@@ -6,7 +6,8 @@ export default interface IProgramme {
   language: "czech" | "english";
   length: number;
   imageUrl?: string;
-  icon: string;
+  icon?: string;
+  field: "it" | "business";
   osubjects?: Array<mongoose.Schema.Types.ObjectId>;
   ssubjects?: Array<mongoose.Schema.Types.ObjectId>;
   ossubjects?: Array<mongoose.Schema.Types.ObjectId>;
