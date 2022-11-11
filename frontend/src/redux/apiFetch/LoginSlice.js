@@ -10,7 +10,7 @@ export const getLogin = createAsyncThunk(
   "login/getLogin",
   // callback function
   async (data) => {
-    const res = await fetch("http://localhost:8001/api/auth/login", {
+    const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -18,7 +18,6 @@ export const getLogin = createAsyncThunk(
 
       body: JSON.stringify(data),
     }).then((data) => data.json());
-    console.log(res);
     return res;
   }
 );
