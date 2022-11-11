@@ -28,3 +28,10 @@ jobs:
           echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
           npm i
           npm test
+          cd ..
+
+      - name: "check frontend"
+        run: |
+          cd frontend
+          npm i 
+          npm run build
