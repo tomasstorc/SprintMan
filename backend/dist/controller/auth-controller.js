@@ -87,11 +87,15 @@ router.post("/login", (req, res) => {
                         expiresIn: "7d",
                     });
                     res.cookie("token", token);
-                    res.status(200).json(new success_response_1.default("logged in"));
+                    res.status(200).json(new success_response_1.default("logged in", token));
                 }
             });
         }
     });
+});
+router.get("/logout", isAuthenticated_1.default, (req, res) => {
+    res.clearCookie("token");
+    return res.status(200).json(new success_response_1.default("logged out"));
 });
 router.get("/facebook", passport_1.default.authenticate("facebook-auth", { scope: "email" }));
 router.get("/facebook/callback", passport_1.default.authenticate("facebook-auth", { session: false }), (req, res) => {
