@@ -10,7 +10,8 @@ const BusinessProgramList = () => {
   const { loading, programList } = useSelector((state) => state.studyProgram);
   useEffect(() => {
     dispatch(getStudyProgram());
-  }, []);
+  }, [dispatch]);
+  if (loading) return <p>Loading...</p>;
   return (
     <Container>
       <h3 className="text-center p-4">Business and economics</h3>

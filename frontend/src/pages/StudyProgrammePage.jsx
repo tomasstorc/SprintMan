@@ -19,7 +19,7 @@ const StudyProgrammePage = () => {
   );
   useEffect(() => {
     dispatch(getStudyProgramDetail(id));
-  }, []);
+  }, [dispatch, id]);
   if (loading) return <p>Loading...</p>;
   return (
     <div>
