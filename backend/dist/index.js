@@ -18,7 +18,7 @@ dotenv_1.default.config();
 passport_1.default.use("facebook-auth", new FacebookStrategy({
     clientID: process.env.FB_APP_ID || "",
     clientSecret: process.env.FB_APP_SECRET || "",
-    callbackURL: "/api/auth/facebook/callback",
+    callbackURL: "https://uusubjectman.com/api/auth/facebook/callback",
     profileFields: ["id", "displayName", "email", "picture"],
 }, (accessToken, refreshToken, profile, done) => {
     User_1.default.findOne({ email: profile.emails[0].value }, (err, foundUser) => {

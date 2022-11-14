@@ -21,7 +21,7 @@ passport.use(
     {
       clientID: process.env.FB_APP_ID || "",
       clientSecret: process.env.FB_APP_SECRET || "",
-      callbackURL: "/api/auth/facebook/callback",
+      callbackURL: "https://uusubjectman.com/api/auth/facebook/callback",
       profileFields: ["id", "displayName", "email", "picture"],
     },
     (accessToken: any, refreshToken: any, profile: any, done: any) => {

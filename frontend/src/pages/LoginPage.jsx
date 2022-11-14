@@ -73,7 +73,7 @@ const LoginPage = () => {
             {" "}
             <BsFacebook
               onClick={() => {
-                window.location = "http://localhost:8001/api/auth/facebook";
+                window.location = "https://uusubjectman.com/api/auth/facebook";
               }}
               className="align-text-top"
               size={20}
