@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../components/Header";
+import { useDispatch } from "react-redux";
+import { parseToken } from "../redux/apiFetch/LoginSlice";
 
 import ITProgramList from "../components/ITProgramList";
 import BusinessProgramList from "../components/BusinessProgramList";
 
 const StudyPage = () => {
+  let dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(parseToken);
+  });
   return (
     <div>
       <Header
