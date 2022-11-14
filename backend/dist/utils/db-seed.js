@@ -122,7 +122,7 @@ const dbSeed = () => {
         }
         if ((subjectList === null || subjectList === void 0 ? void 0 : subjectList.length) < 1) {
             newSubjectList.forEach((subjectSave) => {
-                let newSubject = new Programme_1.default(subjectSave);
+                let newSubject = new Subject_1.default(subjectSave);
                 newSubject.save(() => {
                     console.log(`successfully added subject to db`);
                 });
