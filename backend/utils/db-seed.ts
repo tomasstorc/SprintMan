@@ -134,7 +134,7 @@ const dbSeed = () => {
       }
       if (subjectList?.length < 1) {
         newSubjectList.forEach((subjectSave) => {
-          let newSubject = new Programme(subjectSave);
+          let newSubject = new Subject(subjectSave);
           newSubject.save(() => {
             console.log(`successfully added subject to db`);
           });
