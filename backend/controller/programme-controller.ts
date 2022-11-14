@@ -25,10 +25,7 @@ router.get("/", (req, res) => {
     } else {
       return res.status(200).json(new SuccessResponse("success", programmes));
     }
-  })
-    .populate("osubjects")
-    .populate("ssubjects")
-    .populate("ossubjects");
+  });
 });
 
 router.get("/:id", (req, res) => {
@@ -46,7 +43,10 @@ router.get("/:id", (req, res) => {
           .json(new SuccessResponse("succesws", foundProgramme));
       }
     }
-  );
+  )
+    .populate("osubjects")
+    .populate("ssubjects")
+    .populate("ossubjects");
 });
 
 router.post("/", isAuthenticated, isAdminOrEditor, (req, res) => {
