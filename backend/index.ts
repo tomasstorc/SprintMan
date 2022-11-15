@@ -12,6 +12,8 @@ import subjectController from "./controller/subject-controller";
 import User from "./model/User";
 import { CallbackError } from "mongoose";
 import path from "path";
+import logger from "./utils/logger";
+import morganMiddleware from "./middleware/morgan";
 
 dotenv.config();
 
@@ -56,6 +58,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 app.use(passport.initialize());
+app.use(morganMiddleware);
 
 const PORT = process.env.PORT || 8000;
 
@@ -72,5 +75,5 @@ app.get("*", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`server running at port ${PORT}`);
+  logger.info(`server started at port ${PORT}`);
 });
