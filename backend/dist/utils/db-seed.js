@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Subject_1 = __importDefault(require("../model/Subject"));
 const Programme_1 = __importDefault(require("../model/Programme"));
+const logger_1 = __importDefault(require("./logger"));
 const newProgrammeList = [
     {
         name: "Software development",
@@ -101,17 +102,35 @@ const newSubjectList = [
         credits: 9,
         degree: "Bc.",
     },
+    {
+        name: "Law Essentials",
+        goal: "The course aims at acquainting students with the essentials of law and legislation in the Czech Republic. The course focuses on introducing areas of law useable in a student’s life, from the business, work, private and public point of view. The core of the course comprises legal disciplines that students can apply in their professional and personal life. Above all, the course deals with the public law (potentially law of debenture, agreements etc.), material, process and business law (enterprise essentials etc.), work, copyright, personal data protection and criminal law.",
+        language: "czech",
+        teacher: "Hana Bachrachová-Schelová",
+        supervisor: "Hana Bachrachová-Schelová",
+        credits: 6,
+        degree: "Bc.",
+    },
+    {
+        name: "Tax",
+        goal: "The course aims at providing students with essential knowledge of taxation. The course focuses on Czech tax system, including the social security system.",
+        language: "czech",
+        teacher: "Savina Finardi",
+        supervisor: "Savina Finardi",
+        credits: 9,
+        degree: "Bc.",
+    },
 ];
 const dbSeed = () => {
     Programme_1.default.find((err, programmeList) => {
         if (err) {
-            console.error(`error find programmes, reason: ${err}`);
+            logger_1.default.error(`error finding programmes, reason: ${err}`);
         }
         if ((programmeList === null || programmeList === void 0 ? void 0 : programmeList.length) < 1) {
             newProgrammeList.forEach((programmeSave) => {
                 let newProgramme = new Programme_1.default(programmeSave);
                 newProgramme.save(() => {
-                    console.log(`successfully added programme to db`);
+                    logger_1.default.info(`successfully added programme to db`);
                 });
             });
         }
@@ -124,7 +143,7 @@ const dbSeed = () => {
             newSubjectList.forEach((subjectSave) => {
                 let newSubject = new Subject_1.default(subjectSave);
                 newSubject.save(() => {
-                    console.log(`successfully added subject to db`);
+                    logger_1.default.info(`successfully added subject to db`);
                 });
             });
         }
