@@ -22,7 +22,7 @@ root.render(
             <Route path="/login" element={<LoginPage />} />
             <Route path="/administration" element={<AdministrationPage />} />
             <Route path="/program/:id" element={<StudyProgrammePage />} />
-            <Route path="/subject" element={<SubjectPage />} />
+            <Route path="/subject/:id" element={<SubjectPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

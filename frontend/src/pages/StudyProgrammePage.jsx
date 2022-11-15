@@ -8,7 +8,8 @@ import { BsChat, BsCalendar3 } from "react-icons/bs";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import BlackBox from "../components/BlackBox";
+import Description from "../components/Description";
+import Subject from "../components/Subject";
 import Header from "../components/Header";
 
 const StudyProgrammePage = () => {
@@ -45,18 +46,50 @@ const StudyProgrammePage = () => {
         </Col>
       </Row>
 
-      <BlackBox title="Description" info={programDetail?.description} />
-      <Container>
+      <Description info={programDetail?.description} />
+      <Container className="mt-3">
+        <h1>Subjects</h1>
         <Row>
-          <Col md={3}>
-            <BlackBox title={"Matematika"} info={"5 kreditu"} />
-          </Col>
-          <Col md={3}>
-            <BlackBox title={"Matematika"} info={"5 kreditu"} />
-          </Col>
-          <Col md={3}>
-            <BlackBox title={"Matematika"} info={"5 kreditu"} />
-          </Col>
+          <h3>Obligatory subjects</h3>
+          {programDetail?.osubjects?.map((subject) => {
+            console.log(subject);
+            return (
+              <Col md={4}>
+                <Subject
+                  title={subject.name}
+                  credits={subject.credits}
+                  id={subject._id}
+                />
+              </Col>
+            );
+          })}
+          <h3>Obligatory-selective subjects</h3>
+          {programDetail?.ossubjects?.map((subject) => {
+            console.log(subject);
+            return (
+              <Col md={4}>
+                <Subject
+                  title={subject.name}
+                  credits={subject.credits}
+                  id={subject._id}
+                />
+              </Col>
+            );
+          })}
+          <h3>Selective subjects</h3>
+          {programDetail?.ssubjects?.map((subject) => {
+            console.log(subject);
+            return (
+              <Col md={4}>
+                <Subject
+                  key={subject._id}
+                  title={subject.name}
+                  credits={subject.credits}
+                  id={subject._id}
+                />
+              </Col>
+            );
+          })}
         </Row>
       </Container>
     </div>
