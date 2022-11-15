@@ -8,6 +8,7 @@ const Header = ({ name, imgUrl }) => {
         backgroundImage: `url(${imgUrl})`,
         backgroundPosition: "center",
         backgroundSize: "cover",
+        backgroundColor: "black",
       }}
       className="p-5 d-flex align-items-end"
     >
