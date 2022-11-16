@@ -42,6 +42,8 @@ export const loginSlice = createSlice({
       if (cookies.get("token")) {
         state.token = cookies.get("token");
         state.user = jwt(cookies.get("token"));
+      } else {
+        state.user = undefined;
       }
     },
   },
