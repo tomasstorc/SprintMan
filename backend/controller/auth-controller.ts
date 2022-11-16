@@ -112,7 +112,7 @@ router.post("/login", (req: Request, res: Response) => {
 
 router.get("/logout", isAuthenticated, (req: Request, res: Response) => {
   res.clearCookie("token");
-  return res.status(200).json(new SuccessResponse("logged out"));
+  return res.redirect("/");
 });
 
 router.get(

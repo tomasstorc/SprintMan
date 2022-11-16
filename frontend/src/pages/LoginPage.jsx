@@ -2,12 +2,15 @@ import { useState } from "react";
 import { FloatingLabel, Form, Button, Container } from "react-bootstrap";
 
 import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 import { getLogin } from "../redux/apiFetch/LoginSlice";
 import { BsFacebook } from "react-icons/bs";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.login);
+  const { loading, user, error, errorMsg } = useSelector(
+    (state) => state.login
+  );
   const [loginData, setLoginData] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
@@ -20,6 +23,8 @@ const LoginPage = () => {
   };
 
   if (loading) return <p>Loading...</p>;
+  if (error) return errorMsg;
+
   return (
     <Container
       style={{
@@ -82,6 +87,7 @@ const LoginPage = () => {
           </Button>
         </div>
       </div>
+      {user && <Navigate to="/" />}
     </Container>
   );
 };
