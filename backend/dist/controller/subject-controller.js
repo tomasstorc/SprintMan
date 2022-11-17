@@ -28,6 +28,17 @@ router.get("/", isAuthenticated_1.default, isAdminOrEditor_1.default, (req, res)
         }
     });
 });
+router.get("/name", isAuthenticated_1.default, isAdminOrEditor_1.default, (req, res) => {
+    const query = Subject_1.default.find({}).select(["name"]);
+    query.exec((err, foundSubjects) => {
+        if (err) {
+            return res.status(400).json(new error_response_1.default(err));
+        }
+        return res
+            .status(200)
+            .json(new success_response_1.default("success", foundSubjects));
+    });
+});
 router.get("/:id", (req, res) => {
     Subject_1.default.findById(req.params.id, (err, foundSubject) => {
         if (err) {

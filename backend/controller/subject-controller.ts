@@ -36,6 +36,25 @@ router.get(
   }
 );
 
+router.get(
+  "/name",
+  isAuthenticated,
+  isAdminOrEditor,
+  (req: Request, res: Response) => {
+    const query = Subject.find({}).select(["name"]);
+    query.exec(
+      (err: CallbackError | undefined, foundSubjects: Array<ISubject>) => {
+        if (err) {
+          return res.status(400).json(new ErrorResponse(err));
+        }
+        return res
+          .status(200)
+          .json(new SuccessResponse("success", foundSubjects));
+      }
+    );
+  }
+);
+
 router.get("/:id", (req: Request, res: Response) => {
   Subject.findById(
     req.params.id,
