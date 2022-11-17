@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Form, Button, Row, Col, Modal } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { postSubject } from "../../redux/apiFetch/subject";
+import { postProgram } from "../../redux/apiFetch/StudyProgramSlice";
 import { useDispatch } from "react-redux";
 import ListInputSubject from "./ListInputSubject";
 
@@ -23,7 +23,11 @@ const StudyProgramForm = ({ show, setShow }) => {
     },
   });
   const onSubmit = (data) => {
-    return console.log(data);
+    const programPost = {
+      token: token,
+      body: data,
+    };
+    dispatch(postProgram(programPost));
   };
 
   return (
@@ -65,6 +69,8 @@ const StudyProgramForm = ({ show, setShow }) => {
             <option value="it">Information technologies</option>
             <option value="business">Business and economics</option>
           </Form.Select>
+          <Form.Label>Image URL</Form.Label>
+          <Form.Control {...register("imageUrl", { required: true })} />
           <Form.Label>Description</Form.Label>
           <Form.Control
             as="textarea"
