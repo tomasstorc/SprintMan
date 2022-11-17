@@ -1,23 +1,38 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
-import SubjectForm from "../components/SubjectForm";
 
+import SubjectForm from "../components/subjectForm/SubjectForm";
+import StudyProgramForm from "../components/studyProgramForm/StudyProgramForm";
 const AdministrationPage = () => {
   // let dispatch = useDispatch();
   // useEffect(() => {
   //   dispatch(parseToken());
   // });
-  const [show, setShow] = useState(false);
+  const [showSubject, setShowSubject] = useState(false);
+  const [showProgram, setShowProgram] = useState(false);
+
   return (
     <div>
       <Button
         onClick={() => {
-          setShow(!show);
+          setShowSubject(!showSubject);
         }}
       >
         Create Subject
       </Button>
-      {show && <SubjectForm show={show} setShow={setShow} />}
+      <Button
+        onClick={() => {
+          setShowProgram(!showProgram);
+        }}
+      >
+        Create study program
+      </Button>
+      {showSubject && (
+        <SubjectForm show={showSubject} setShow={setShowSubject} />
+      )}
+      {showProgram && (
+        <StudyProgramForm show={showProgram} setShow={setShowProgram} />
+      )}
     </div>
   );
 };
