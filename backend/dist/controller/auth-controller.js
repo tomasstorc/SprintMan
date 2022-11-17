@@ -86,7 +86,7 @@ router.post("/login", (req, res) => {
                     const token = jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET, {
                         expiresIn: "7d",
                     });
-                    res.cookie("token", token);
+                    res.cookie("token", token, { httpOnly: true, secure: true });
                     res.status(200).json(new success_response_1.default("logged in", token));
                 }
             });
@@ -108,7 +108,7 @@ router.get("/facebook/callback", passport_1.default.authenticate("facebook-auth"
     const token = jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET, {
         expiresIn: "7d",
     });
-    res.cookie("token", token);
+    res.cookie("token", token, { httpOnly: true, secure: true });
     res.redirect("/");
 });
 exports.default = router;

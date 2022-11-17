@@ -22,6 +22,9 @@ router.get("/", isAuthenticated_1.default, isAdmin_1.default, (req, res) => {
         if (err) {
             return res.status(400).json(new error_response_1.default(err));
         }
+        if (foundUsers.length === 0) {
+            return res.status(204).json(new success_response_1.default("empty"));
+        }
         return res.status(200).json(new success_response_1.default("success", foundUsers));
     });
 });
