@@ -2,8 +2,13 @@ import { useForm } from "react-hook-form";
 import { Form, Button, Row, Col, Modal } from "react-bootstrap";
 import ListInputMaterial from "./ListInputMaterial";
 import ListInputTopic from "./ListInputTopics";
+import { useSelector } from "react-redux";
+import { postSubject } from "../redux/apiFetch/subject";
+import { useDispatch } from "react-redux";
 
 const SubjectForm = ({ show, setShow }) => {
+  let dispatch = useDispatch();
+  let { token } = useSelector((state) => state.login);
   const { register, handleSubmit, control, reset } = useForm({
     defaultValues: {
       name: "",
@@ -17,7 +22,13 @@ const SubjectForm = ({ show, setShow }) => {
       supervisor: "",
     },
   });
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    let subjectPost = {
+      token: token,
+      body: data,
+    };
+    dispatch(postSubject(subjectPost));
+  };
 
   return (
     <Modal show={show}>
@@ -40,16 +51,23 @@ const SubjectForm = ({ show, setShow }) => {
             </Col>
             <Col md={4}>
               {" "}
-              <Form.Control
+              <Form.Select
                 {...register("language", { required: true })}
                 placeholder="Language"
-              />
+              >
+                <option value="czech">Czech</option>
+                <option value="english">English</option>
+              </Form.Select>
             </Col>
             <Col md={5}>
-              <Form.Control
+              <Form.Select
                 {...register("degree", { required: true })}
                 placeholder="Degree of study"
-              />
+              >
+                {" "}
+                <option value="Bc.">Bc.</option>
+                <option value="Ing.">Ing.</option>
+              </Form.Select>
             </Col>
           </Row>
           <Form.Control
