@@ -12,6 +12,7 @@ const db_connect_1 = __importDefault(require("./utils/db-connect"));
 const auth_controller_1 = __importDefault(require("./controller/auth-controller"));
 const programme_controller_1 = __importDefault(require("./controller/programme-controller"));
 const subject_controller_1 = __importDefault(require("./controller/subject-controller"));
+const user_controller_1 = __importDefault(require("./controller/user-controller"));
 const User_1 = __importDefault(require("./model/User"));
 const path_1 = __importDefault(require("path"));
 const logger_1 = __importDefault(require("./utils/logger"));
@@ -52,6 +53,7 @@ const PORT = process.env.PORT || 8000;
 app.use("/api/auth", auth_controller_1.default);
 app.use("/api/programme", programme_controller_1.default);
 app.use("/api/subject", subject_controller_1.default);
+app.use("/api/user", user_controller_1.default);
 app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
 app.get("*", (req, res) => {
     res.sendFile(path_1.default.join(__dirname + "/public/index.html"));

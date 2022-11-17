@@ -7,9 +7,9 @@ exports.digitalContentSchema = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const validate_url_1 = __importDefault(require("../utils/validate-url"));
 exports.digitalContentSchema = new mongoose_1.default.Schema({
-    name: {
+    title: {
         type: String,
-        required: [true, "Name is required"],
+        required: [true, "Title is required"],
         min: [3, " Name must be atleast 3 characters long"],
         max: [30, "Maximum cagaracters exceeded"],
     },

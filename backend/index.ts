@@ -9,6 +9,7 @@ import dbConnect from "./utils/db-connect";
 import authController from "./controller/auth-controller";
 import programmeController from "./controller/programme-controller";
 import subjectController from "./controller/subject-controller";
+import userController from "./controller/user-controller";
 import User from "./model/User";
 import { CallbackError } from "mongoose";
 import path from "path";
@@ -67,6 +68,7 @@ dbConnect();
 app.use("/api/auth", authController);
 app.use("/api/programme", programmeController);
 app.use("/api/subject", subjectController);
+app.use("/api/user", userController);
 
 app.use(express.static(path.join(__dirname, "public")));
 

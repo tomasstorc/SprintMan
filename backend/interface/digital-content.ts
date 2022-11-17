@@ -1,4 +1,4 @@
 export default interface IDigitalContent {
-  name: string;
+  title: string;
   link: string;
 }
