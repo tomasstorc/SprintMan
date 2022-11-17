@@ -3,8 +3,9 @@ import { useFieldArray } from "react-hook-form";
 import { Form, Button, Row, Col, Container, ListGroup } from "react-bootstrap";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiDeleteBin2Line } from "react-icons/ri";
-
+import { useSelector } from "react-redux";
 const ListInputSubject = ({ register, control, subjectType, name }) => {
+  const { subjectNames } = useSelector((state) => state.subject);
   const { fields, append, remove } = useFieldArray({
     control,
     name: subjectType,
@@ -24,8 +25,11 @@ const ListInputSubject = ({ register, control, subjectType, name }) => {
                       required: false,
                     })}
                   >
-                    <option value="test">Information </option>
-                    <option value="tst">Business and economics</option>
+                    {subjectNames?.map((subject) => {
+                      return (
+                        <option value={subject._id}>{subject.name}</option>
+                      );
+                    })}
                   </Form.Select>
                 </Col>
                 <Col md={2}>

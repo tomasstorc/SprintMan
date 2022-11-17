@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { Form, Button, Row, Col, Modal } from "react-bootstrap";
-import { useSelector } from "react-redux";
+
 import { postProgram } from "../../redux/apiFetch/StudyProgramSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ListInputSubject from "./ListInputSubject";
 
 const StudyProgramForm = ({ show, setShow }) => {
