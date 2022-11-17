@@ -26,7 +26,7 @@ const userSchema = new mongoose_1.default.Schema({
     role: {
         type: String,
         enum: {
-            values: ["student", "editor", "admin"],
+            values: ["student", "editor", "admin", "teacher"],
             message: `{VALUE} is not valid, must be studnet, admin. or editor`,
         },
     },

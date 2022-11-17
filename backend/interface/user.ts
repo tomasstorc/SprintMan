@@ -3,5 +3,5 @@ export default interface IUser {
   name: string;
   password: string;
   repeatPassword?: string;
-  role: "admin" | "student" | "editor";
+  role: "admin" | "student" | "editor" | "teacher";
 }
