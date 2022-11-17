@@ -3,7 +3,7 @@ import { Form, Button, Row, Col, Modal } from "react-bootstrap";
 import ListInputMaterial from "./ListInputMaterial";
 import ListInputTopic from "./ListInputTopics";
 import { useSelector } from "react-redux";
-import { postSubject } from "../redux/apiFetch/subject";
+import { postSubject } from "../../redux/apiFetch/subject";
 import { useDispatch } from "react-redux";
 
 const SubjectForm = ({ show, setShow }) => {
@@ -37,43 +37,35 @@ const SubjectForm = ({ show, setShow }) => {
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Control
-            {...register("name", { required: true })}
-            placeholder="Subject name"
-          />
+          <Form.Label>Subject name</Form.Label>
+          <Form.Control {...register("name", { required: true })} />
           <Row>
             <Col md={3}>
+              <Form.Label>Credits</Form.Label>
               <Form.Control
                 {...register("credits", { required: true })}
-                placeholder="Credits"
                 type="number"
               />
             </Col>
             <Col md={4}>
-              {" "}
-              <Form.Select
-                {...register("language", { required: true })}
-                placeholder="Language"
-              >
+              <Form.Label>Language</Form.Label>
+              <Form.Select {...register("language", { required: true })}>
                 <option value="czech">Czech</option>
                 <option value="english">English</option>
               </Form.Select>
             </Col>
             <Col md={5}>
-              <Form.Select
-                {...register("degree", { required: true })}
-                placeholder="Degree of study"
-              >
-                {" "}
+              <Form.Label>Degree of study</Form.Label>
+              <Form.Select {...register("degree", { required: true })}>
                 <option value="Bc.">Bc.</option>
                 <option value="Ing.">Ing.</option>
               </Form.Select>
             </Col>
           </Row>
+          <Form.Label>Goal and description</Form.Label>
           <Form.Control
             as="textarea"
             {...register("goal", { required: true })}
-            placeholder="Goal"
           />
           <ListInputMaterial
             register={register}
@@ -91,14 +83,11 @@ const SubjectForm = ({ show, setShow }) => {
             {...register("topics", { required: true })}
             placeholder="Topics"
           /> */}
-          <Form.Control
-            {...register("teacher", { required: true })}
-            placeholder="Teacher"
-          />
-          <Form.Control
-            {...register("supervisor", { required: true })}
-            placeholder="Supervisor"
-          />
+          <Form.Label>Teacher</Form.Label>
+          <Form.Control {...register("teacher", { required: true })} />
+          <Form.Label>Supervisor</Form.Label>
+
+          <Form.Control {...register("supervisor", { required: true })} />
         </Form>
       </Modal.Body>
       <Modal.Footer>

@@ -22,7 +22,8 @@ router.get("/", isAuthenticated_1.default, isAdmin_1.default, (req, res) => {
         if (err) {
             return res.status(400).json(new error_response_1.default(err));
         }
-        return res.status(200).json(new success_response_1.default("success", foundUsers));
+        if (foundUsers.length === 0)
+            return res.status(200).json(new success_response_1.default("success", foundUsers));
     });
 });
 exports.default = router;

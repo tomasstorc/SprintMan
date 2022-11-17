@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FloatingLabel, Form, Button, Container } from "react-bootstrap";
+import { FloatingLabel, Form, Button } from "react-bootstrap";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
@@ -26,7 +26,7 @@ const LoginPage = () => {
   if (error) return errorMsg;
 
   return (
-    <Container
+    <div
       style={{
         display: "flex",
         alignItems: "center",
@@ -88,7 +88,7 @@ const LoginPage = () => {
         </div>
       </div>
       {user && <Navigate to="/" />}
-    </Container>
+    </div>
   );
 };
 
