@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
+
 import SubjectForm from "../components/subjectForm/SubjectForm";
 import StudyProgramForm from "../components/studyProgramForm/StudyProgramForm";
 const AdministrationPage = () => {

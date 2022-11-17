@@ -21,8 +21,10 @@ router.get("/", isAuthenticated, isAdmin, (req: Request, res: Response) => {
     if (err) {
       return res.status(400).json(new ErrorResponse(err));
     }
-    if (foundUsers.length === 0)
-      return res.status(200).json(new SuccessResponse("success", foundUsers));
+    if (foundUsers.length === 0) {
+      return res.status(204).json(new SuccessResponse("empty"));
+    }
+    return res.status(200).json(new SuccessResponse("success", foundUsers));
   });
 });
 

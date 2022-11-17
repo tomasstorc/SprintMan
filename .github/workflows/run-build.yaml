@@ -1,3 +1,4 @@
+name: "Build and deploy"
 on:
   pull_request:
     types:
@@ -7,6 +8,8 @@ on:
 
 jobs:
   deploy:
+    permissions:
+      id-token: write
     runs-on: ubuntu-latest
     steps:
       - name: "checkout"
@@ -39,3 +42,14 @@ jobs:
 
       - name: "docker push"
         run: docker push tomasstorc/subjectman:latest
+
+      - name: "Az CLI login"
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.MS_APP_ID }}
+          tenant-id: ${{ secrets.MS_TENANT_ID }}
+          subscription-id: ${{ secrets.MS_SUB_ID }}
+
+      - name: "restart app"
+        run: |
+          az webapp restart -n uusubjectman -g subjectman-rg
