@@ -39,7 +39,6 @@ export const loginSlice = createSlice({
   initialState,
   reducers: {
     parseToken: (state) => {
-      console.log(cookies.get["token"]);
       if (cookies.get("token")) {
         state.token = cookies.get("token");
         state.user = jwt(cookies.get("token"));
