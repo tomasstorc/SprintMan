@@ -12,7 +12,6 @@ import { TbCertificate2 } from "react-icons/tb";
 import Description from "../components/Description";
 import Material from "../components/Material";
 import Topic from "../components/Topic";
-import Dropdown from "react-bootstrap/Dropdown";
 
 const SubjectPage = () => {
   const type = {

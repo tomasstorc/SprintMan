@@ -1,5 +1,5 @@
 import React from "react";
-import DataTable, { ExpanderComponentProps } from "react-data-table-component";
+import DataTable from "react-data-table-component";
 import Material from "./Material";
 
 const data = [
