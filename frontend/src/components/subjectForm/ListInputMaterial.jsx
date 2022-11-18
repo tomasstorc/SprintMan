@@ -1,5 +1,5 @@
 import React from "react";
-import { useFieldArray, Controller } from "react-hook-form";
+import { useFieldArray } from "react-hook-form";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import ListGroup from "react-bootstrap/ListGroup";
 import { AiOutlinePlus } from "react-icons/ai";
