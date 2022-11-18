@@ -23,6 +23,7 @@ const SubjectForm = ({ show, setShow }) => {
     },
   });
   const onSubmit = (data) => {
+    console.log(data);
     let subjectPost = {
       token: token,
       body: data,

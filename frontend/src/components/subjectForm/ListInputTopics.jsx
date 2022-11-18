@@ -1,11 +1,13 @@
 import React from "react";
-import { useFieldArray } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { Form, Button, Container } from "react-bootstrap";
 import ListGroup from "react-bootstrap/ListGroup";
 import { AiOutlinePlus } from "react-icons/ai";
 import { HiXMark } from "react-icons/hi2";
 import ListInputTopicMaterial from "./ListInputTopicMaterial";
-const ListInputTopic = ({ register, control, reset }) => {
+
+const ListInputTopic = ({ register, reset }) => {
+  const { control } = useForm();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "topics",
@@ -29,9 +31,11 @@ const ListInputTopic = ({ register, control, reset }) => {
               />
               <ListInputTopicMaterial
                 register={register}
+                nestIndex={index}
                 name="topics"
                 control={control}
                 reset={reset}
+                item={item}
               />
             </ListGroup.Item>
           );

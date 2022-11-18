@@ -4,13 +4,15 @@ import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import ListGroup from "react-bootstrap/ListGroup";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiDeleteBin2Line } from "react-icons/ri";
-const ListInputMaterial = ({ register, control, name }) => {
+import { useForm } from "react-hook-form";
+const ListInputMaterial = ({ register, name }) => {
   // const { register, control } = useForm({
   //   defaultValues: {
   //     materials: [{ title: "", link: "" }],
   //     topics: [{: "", title: "", link: "" }],
   //   },
   // });
+  const { control } = useForm();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "materials",
@@ -36,12 +38,11 @@ const ListInputMaterial = ({ register, control, name }) => {
                 </Col>
 
                 <Col md={5}>
-                  <Controller
-                    render={({ field }) => (
-                      <Form.Control placeholder="Link" {...field} />
-                    )}
-                    name={`materials.${index}.link`}
-                    control={control}
+                  <Form.Control
+                    placeholder="Link"
+                    {...register(`materials.${index}.link`, {
+                      required: true,
+                    })}
                   />
                 </Col>
                 <Col md={1}>

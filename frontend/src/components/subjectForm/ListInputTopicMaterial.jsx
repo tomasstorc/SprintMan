@@ -1,18 +1,21 @@
-import { useFieldArray } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import ListGroup from "react-bootstrap/ListGroup";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiDeleteBin2Line } from "react-icons/ri";
-const ListInputTopicMaterial = ({ register, control, reset }) => {
+
+const ListInputTopicMaterial = ({ register, nestIndex }) => {
   // const { register, control } = useForm({
   //   defaultValues: {
   //     materials: [{ title: "", link: "" }],
   //     topics: [{: "", title: "", link: "" }],
   //   },
   // });
+  const { control } = useForm();
+
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "TopicMaterials",
+    name: `topics.${nestIndex}.materials`,
   });
 
   return (
@@ -26,19 +29,21 @@ const ListInputTopicMaterial = ({ register, control, reset }) => {
               <Row>
                 <Col md={5}>
                   <Form.Control
-                    placeholder="Title"
-                    {...register(`topics.${index}.materials.${index}.title`, {
-                      required: true,
-                    })}
+                    // placeholder="Title"
+                    // name={`topics[${nestIndex}].materials[${index}].title`}
+                    // ref={register()}
+                    {...register(
+                      `topics.${nestIndex}.materials.${index}.title`
+                    )}
                   />
                 </Col>
 
                 <Col md={5}>
                   <Form.Control
-                    placeholder="Link"
-                    {...register(`topics.${index}.materials.${index}.link`, {
-                      required: true,
-                    })}
+                    // placeholder="Link"
+                    // name={`topics[${nestIndex}].materials[${index}].link`}
+                    // ref={register()}
+                    {...register(`topics.${nestIndex}.materials.${index}.link`)}
                   />
                 </Col>
                 <Col md={1}>

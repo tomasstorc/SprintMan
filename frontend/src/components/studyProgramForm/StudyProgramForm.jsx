@@ -4,10 +4,16 @@ import { Form, Button, Row, Col, Modal } from "react-bootstrap";
 import { postProgram } from "../../redux/apiFetch/StudyProgramSlice";
 import { useDispatch, useSelector } from "react-redux";
 import ListInputSubject from "./ListInputSubject";
+import { useEffect } from "react";
+import { getSubjectsNames } from "../../redux/apiFetch/subject";
 
 const StudyProgramForm = ({ show, setShow }) => {
-  let dispatch = useDispatch();
   let { token } = useSelector((state) => state.login);
+  let dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getSubjectsNames(token));
+  }, [token, dispatch]);
+
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
       name: "",

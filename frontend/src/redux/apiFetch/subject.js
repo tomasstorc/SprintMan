@@ -11,7 +11,9 @@ export const postSubject = createAsyncThunk(
       },
 
       body: JSON.stringify(data.body),
-    }).then((data) => data.json());
+    })
+      .then((data) => data.json())
+      .catch((err) => err);
     return res;
   }
 );
@@ -57,7 +59,7 @@ export const subject = createSlice({
     },
     [getSubjectsNames.rejected]: (state, action) => {
       state.error = true;
-      state.errorMsg = action.payload.errorMsg;
+      state.errorMsg = "something went wrong";
     },
     [getSubjectsNames.pending]: (state) => {
       state.loading = true;
