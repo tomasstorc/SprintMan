@@ -1,17 +1,25 @@
-import React from "react";
+import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getSubjectDetail } from "../redux/apiFetch/SubjectDetail";
 import Header from "../components/Header";
 import InfoBox from "../components/InfoBox";
-import { Col, Row } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import { GiGraduateCap } from "react-icons/gi";
 import { BsChat } from "react-icons/bs";
 import { TbCertificate2 } from "react-icons/tb";
 import Description from "../components/Description";
+import Material from "../components/Material";
+import Topic from "../components/Topic";
+import Dropdown from "react-bootstrap/Dropdown";
 
 const SubjectPage = () => {
+  const type = {
+    all: "All materials",
+    topic: "Topics",
+  };
+  const [option, setOption] = useState(type.topic);
   const { id } = useParams();
   const dispatch = useDispatch();
   const { loading, subjectDetail } = useSelector(
@@ -22,6 +30,7 @@ const SubjectPage = () => {
   }, [dispatch, id]);
   if (loading) return <p>Loading...</p>;
   console.log(subjectDetail);
+
   return (
     <div>
       <Header name={subjectDetail.name} />
@@ -48,6 +57,32 @@ const SubjectPage = () => {
         </Col>
       </Row>
       <Description info={subjectDetail.goal} />
+      <Button onClick={() => setOption(type.topic)}>Topics</Button>
+      <Button onClick={() => setOption(type.all)}>All materials</Button>
+
+      {option === type.all && (
+        <Row>
+          <Col md={4}>
+            <Material
+              variant={"bg-dark text-white"}
+              name={"Test testovicovic test"}
+            />
+          </Col>
+          <Col md={4}>
+            <Material
+              variant={"bg-dark text-white"}
+              name={"Test testovicovic test"}
+            />
+          </Col>
+          <Col md={4}>
+            <Material
+              variant={"bg-dark text-white"}
+              name={"Test testovicovic test"}
+            />
+          </Col>
+        </Row>
+      )}
+      {option === type.topic && <Topic />}
     </div>
   );
 };
