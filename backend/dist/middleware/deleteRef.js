@@ -21,7 +21,6 @@ const deleteRef = (req, res, next) => {
                     console.log(updateProgramme);
                     if (err) {
                         logger_1.default.error(`There was an problem deleteting subject from program, reason ${err}`);
-                        x;
                         return res.status(400).json(new error_response_1.default(err));
                     }
                     logger_1.default.info(`Subject ${subjectId} successfully deleted from program ${program.name} - osubject`);

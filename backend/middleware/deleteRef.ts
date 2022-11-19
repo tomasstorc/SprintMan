@@ -27,7 +27,7 @@ const deleteRef = (req: Request, res: Response, next: NextFunction) => {
                 logger.error(
                   `There was an problem deleteting subject from program, reason ${err}`
                 );
-                x;
+
                 return res.status(400).json(new ErrorResponse(err));
               }
               logger.info(
