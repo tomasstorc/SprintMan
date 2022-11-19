@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 export default interface IProgramme {
+  _id?: mongoose.Types.ObjectId;
   name: string;
   description: string;
   degree: "Bc." | "Ing.";

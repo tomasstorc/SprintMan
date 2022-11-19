@@ -10,6 +10,7 @@ const isAdminOrEditor_1 = __importDefault(require("../middleware/isAdminOrEditor
 const isAdmin_1 = __importDefault(require("../middleware/isAdmin"));
 const error_response_1 = __importDefault(require("../response/error-response"));
 const success_response_1 = __importDefault(require("../response/success-response"));
+const deleteRef_1 = __importDefault(require("../middleware/deleteRef"));
 const router = express_1.default.Router();
 router.get("/", isAuthenticated_1.default, isAdminOrEditor_1.default, (req, res) => {
     Subject_1.default.find((err, subjectList) => {
@@ -75,8 +76,8 @@ router.put("/:id", isAuthenticated_1.default, isAdminOrEditor_1.default, (req, r
             .json(new success_response_1.default("updated", updatedSubject.value));
     });
 });
-router.delete("/:id", isAuthenticated_1.default, isAdmin_1.default, (req, res) => {
-    Subject_1.default.findByIdAndDelete(req.params.id, (err, deletedSubject) => {
+router.delete("/:id", isAuthenticated_1.default, isAdmin_1.default, deleteRef_1.default, (req, res) => {
+    Subject_1.default.findByIdAndRemove(req.params.id, (err, deletedSubject) => {
         if (err) {
             return res.status(400).json(new error_response_1.default(err));
         }
