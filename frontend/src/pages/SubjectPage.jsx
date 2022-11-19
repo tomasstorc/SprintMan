@@ -29,7 +29,7 @@ const SubjectPage = () => {
   );
   useEffect(() => {
     dispatch(getSubjectDetail(id));
-  }, [id]);
+  }, [dispatch, id]);
   if (loading) return <p>Loading...</p>;
   console.log(option);
   return (
