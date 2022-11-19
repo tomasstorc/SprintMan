@@ -28,7 +28,11 @@ router.get("/", (req, res) => {
     });
 });
 router.get("/:id", (req, res) => {
-    Programme_1.default.findById(req.params.id, (err, foundProgramme) => {
+    Programme_1.default.findById(req.params.id)
+        .populate("osubjects")
+        .populate("ssubjects")
+        .populate("ossubjects")
+        .exec((err, foundProgramme) => {
         if (err) {
             return res.status(400).json(new error_response_1.default(err));
         }
@@ -40,10 +44,7 @@ router.get("/:id", (req, res) => {
                 .status(200)
                 .json(new success_response_1.default("succesws", foundProgramme));
         }
-    })
-        .populate("osubjects")
-        .populate("ssubjects")
-        .populate("ossubjects");
+    });
 });
 router.post("/", isAuthenticated_1.default, isAdminOrEditor_1.default, (req, res) => {
     const newProgramme = new Programme_1.default(req.body);

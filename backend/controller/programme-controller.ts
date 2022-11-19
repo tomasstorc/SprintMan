@@ -29,9 +29,11 @@ router.get("/", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-  Programme.findById(
-    req.params.id,
-    (err: CallbackError, foundProgramme: IProgramme | undefined) => {
+  Programme.findById(req.params.id)
+    .populate("osubjects")
+    .populate("ssubjects")
+    .populate("ossubjects")
+    .exec((err: CallbackError, foundProgramme: IProgramme | null) => {
       if (err) {
         return res.status(400).json(new ErrorResponse(err));
       }
@@ -42,11 +44,7 @@ router.get("/:id", (req, res) => {
           .status(200)
           .json(new SuccessResponse("succesws", foundProgramme));
       }
-    }
-  )
-    .populate("osubjects")
-    .populate("ssubjects")
-    .populate("ossubjects");
+    });
 });
 
 router.post("/", isAuthenticated, isAdminOrEditor, (req, res) => {
