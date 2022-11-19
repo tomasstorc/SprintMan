@@ -3,6 +3,7 @@ import IDigitalContent from "./digital-content";
 import mongoose from "mongoose";
 
 export default interface ISubject {
+  _id?: mongoose.Types.ObjectId;
   name: string;
   credits: number;
   language: "czech" | "english";

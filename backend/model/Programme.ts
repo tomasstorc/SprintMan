@@ -57,5 +57,5 @@ const programmeSchema = new mongoose.Schema<IProgramme>({
   ossubjects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Subject" }],
 });
 
-const Programme = mongoose.model("Programme", programmeSchema);
+const Programme = mongoose.model<IProgramme>("Programme", programmeSchema);
 export default Programme;

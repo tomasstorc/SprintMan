@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import ISubject from "../interface/subject";
 import { topicSchema } from "./Topic";
 import { digitalContentSchema } from "./DigitalContent";
@@ -52,5 +52,5 @@ const subjectSchema = new mongoose.Schema<ISubject>({
   topics: [topicSchema],
 });
 
-const Subject = mongoose.model("Subject", subjectSchema);
+const Subject = mongoose.model<ISubject>("Subject", subjectSchema);
 export default Subject;

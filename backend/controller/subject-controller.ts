@@ -9,6 +9,7 @@ import ErrorResponse from "../response/error-response";
 import SuccessResponse from "../response/success-response";
 import Programme from "../model/Programme";
 import ITopic from "../interface/topic";
+import deleteRef from "../middleware/deleteRef";
 
 const router = express.Router();
 
@@ -120,8 +121,9 @@ router.delete(
   "/:id",
   isAuthenticated,
   isAdmin,
+  deleteRef,
   (req: Request, res: Response) => {
-    Subject.findByIdAndDelete(
+    Subject.findByIdAndRemove(
       req.params.id,
       (
         err: CallbackError | undefined,
