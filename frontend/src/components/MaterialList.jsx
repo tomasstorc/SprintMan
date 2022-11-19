@@ -11,7 +11,7 @@ const MaterialList = ({ materials }) => {
         console.log(material.title);
         return (
           <Col md={"auto"}>
-            <Material name={material?.title} />
+            <Material name={material?.title} link={material?.link} />
           </Col>
         );
       })}

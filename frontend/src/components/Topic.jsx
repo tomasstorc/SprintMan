@@ -14,7 +14,7 @@ const Topic = ({ name, topic }) => {
             {topic?.materials?.map((material) => {
               return (
                 <Col md={"auto"} key={material?.id}>
-                  <Material name={material.title} />
+                  <Material name={material.title} link={material?.link} />
                 </Col>
               );
             })}
