@@ -5,17 +5,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSubjectDetail } from "../redux/apiFetch/SubjectDetail";
 import Header from "../components/Header";
 import InfoBox from "../components/InfoBox";
-import { Button, Col, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { GiGraduateCap } from "react-icons/gi";
 import { BsChat } from "react-icons/bs";
 import { TbCertificate2 } from "react-icons/tb";
+import { AiFillProfile, AiFillFile } from "react-icons/ai";
+
 import Description from "../components/Description";
-import Material from "../components/Material";
-import Topic from "../components/Topic";
+import MaterialList from "../components/MaterialList";
+import TopicList from "../components/TopicList";
+import Teachers from "../components/Teachers";
 
 const SubjectPage = () => {
   const type = {
-    all: "All materials",
+    all: "all-materials",
     topic: "Topics",
   };
   const [option, setOption] = useState(type.topic);
@@ -26,13 +29,12 @@ const SubjectPage = () => {
   );
   useEffect(() => {
     dispatch(getSubjectDetail(id));
-  }, [dispatch, id]);
+  }, [id]);
   if (loading) return <p>Loading...</p>;
-  console.log(subjectDetail);
-
+  console.log(option);
   return (
     <div>
-      <Header name={subjectDetail.name} />
+      <Header name={subjectDetail?.name} />
       <Row className="d-flex justify-content-center">
         <Col md={3}>
           <InfoBox
@@ -55,33 +57,40 @@ const SubjectPage = () => {
           />
         </Col>
       </Row>
-      <Description info={subjectDetail.goal} />
-      <Button onClick={() => setOption(type.topic)}>Topics</Button>
-      <Button onClick={() => setOption(type.all)}>All materials</Button>
+      <Description info={subjectDetail?.goal} />
+      <Container>
+        <h3>Learning materials</h3>
+        <Button
+          variant={`${option === type.topic ? "dark" : "outline-dark"}`}
+          onClick={() => setOption(type.topic)}
+        >
+          <AiFillProfile size={25} />
+          Show by topics
+        </Button>
+        <Button
+          variant={`${option === type.all ? "dark" : "outline-dark"}`}
+          onClick={() => setOption(type.all)}
+        >
+          <AiFillFile size={25} />
+          Show all materials
+        </Button>
 
-      {option === type.all && (
+        {option === type.all && (
+          <MaterialList materials={subjectDetail?.materials} />
+        )}
+        {option === type.topic && <TopicList topics={subjectDetail?.topics} />}
+      </Container>
+      <Container className="mt-3">
         <Row>
-          <Col md={4}>
-            <Material
-              variant={"bg-dark text-white"}
-              name={"Test testovicovic test"}
-            />
+          <Col>
+            {" "}
+            <Teachers title={"Teachers"} name={subjectDetail?.teacher} />
           </Col>
-          <Col md={4}>
-            <Material
-              variant={"bg-dark text-white"}
-              name={"Test testovicovic test"}
-            />
-          </Col>
-          <Col md={4}>
-            <Material
-              variant={"bg-dark text-white"}
-              name={"Test testovicovic test"}
-            />
+          <Col md={"auto"}>
+            <Teachers title={"Supervisor"} name={subjectDetail?.supervisor} />
           </Col>
         </Row>
-      )}
-      {option === type.topic && <Topic />}
+      </Container>
     </div>
   );
 };
