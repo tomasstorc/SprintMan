@@ -1,13 +1,12 @@
 import React from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray } from "react-hook-form";
 import { Form, Button, Container } from "react-bootstrap";
 import ListGroup from "react-bootstrap/ListGroup";
 import { AiOutlinePlus } from "react-icons/ai";
 import { HiXMark } from "react-icons/hi2";
 import ListInputTopicMaterial from "./ListInputTopicMaterial";
 
-const ListInputTopic = ({ register, reset }) => {
-  const { control } = useForm();
+const ListInputTopic = ({ register, reset, control }) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "topics",

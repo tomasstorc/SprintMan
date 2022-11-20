@@ -4,7 +4,7 @@ export default interface IProgramme {
   name: string;
   description: string;
   degree: "Bc." | "Ing.";
-  language: "czech" | "english";
+  language: "czech" | "english"[];
   length: number;
   imageUrl?: string;
   icon?: string;
