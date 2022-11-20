@@ -30,6 +30,18 @@ export const getSubjectsNames = createAsyncThunk(
     return res;
   }
 );
+export const getSubjects = createAsyncThunk(
+  "subject/getSubjects",
+  async (token, thunkAPI) => {
+    const res = await fetch("/api/subject", {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }).then((data) => data.json());
+    return res;
+  }
+);
 
 export const subject = createSlice({
   name: "subject",
@@ -38,6 +50,7 @@ export const subject = createSlice({
     error: false,
     errorMsg: undefined,
     subjectNames: [],
+    subjects: [],
   },
   reducers: {},
   extraReducers: {
@@ -67,6 +80,18 @@ export const subject = createSlice({
     [getSubjectsNames.fulfilled]: (state, action) => {
       console.log(action.payload);
       state.subjectNames = action.payload.data;
+      state.loading = false;
+    },
+    [getSubjects.rejected]: (state, action) => {
+      state.error = true;
+      state.errorMsg = "something went wrong";
+    },
+    [getSubjects.pending]: (state) => {
+      state.loading = true;
+    },
+    [getSubjects.fulfilled]: (state, action) => {
+      console.log(action.payload);
+      state.subjects = action.payload.data;
       state.loading = false;
     },
   },
