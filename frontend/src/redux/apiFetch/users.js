@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
-  users: {},
+  users: [],
   loading: false,
 };
 
@@ -9,8 +9,12 @@ export const getUsers = createAsyncThunk(
   //action type string
   "users/getUsers",
   // callback function
-  async () => {
-    const res = await fetch(`/api/user`).then((data) => data.json());
+  async (token) => {
+    const res = await fetch(`/api/user`, {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }).then((data) => data.json());
     console.log(res);
     return res;
   }
