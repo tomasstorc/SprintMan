@@ -11,14 +11,6 @@ const levels = {
     http: 3,
     debug: 4,
 };
-const colors = {
-    error: "red",
-    warn: "yellow",
-    info: "green",
-    http: "magenta",
-    debug: "white",
-};
-winston_1.default.addColors(colors);
 const format = winston_1.default.format.combine(winston_1.default.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss:ms" }), winston_1.default.format.colorize({ all: true }), winston_1.default.format.printf((info) => `${info.timestamp} ${info.level}: ${info.message}`));
 const transports = [new winston_1.default.transports.Console()];
 const logger = winston_1.default.createLogger({

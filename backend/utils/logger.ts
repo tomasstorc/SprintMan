@@ -8,16 +8,6 @@ const levels = {
   debug: 4,
 };
 
-const colors = {
-  error: "red",
-  warn: "yellow",
-  info: "green",
-  http: "magenta",
-  debug: "white",
-};
-
-winston.addColors(colors);
-
 const format = winston.format.combine(
   winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss:ms" }),
   winston.format.colorize({ all: true }),
