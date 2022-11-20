@@ -74,16 +74,15 @@ const LoginPage = () => {
           </Button>
         </div>
         <div className="d-grid gap-2">
-          <Button variant="outline-dark">
+          <Button
+            variant="outline-dark"
+            onClick={() => {
+              window.location = "https://uusubjectman.com/api/auth/facebook";
+            }}
+          >
             {" "}
-            <BsFacebook
-              onClick={() => {
-                window.location = "https://uusubjectman.com/api/auth/facebook";
-              }}
-              className="align-text-top"
-              size={20}
-            />{" "}
-            Přihlásit se přes Facebook
+            <BsFacebook className="align-text-top" size={20} /> Přihlásit se
+            přes Facebook
           </Button>
         </div>
       </div>
