@@ -4,6 +4,7 @@ import { studyProgramReducer } from "./apiFetch/StudyProgramSlice";
 import { studyProgramDetailReducer } from "./apiFetch/StudyProgramDetail";
 import { subject } from "./apiFetch/subject";
 import { subjectDetailReducer } from "./apiFetch/SubjectDetail";
+import { usersReducer } from "./apiFetch/users";
 export const store = configureStore({
   reducer: {
     login: loginReducer,
@@ -11,5 +12,6 @@ export const store = configureStore({
     studyProgram: studyProgramReducer,
     studyProgramDetail: studyProgramDetailReducer,
     subjectDetail: subjectDetailReducer,
+    users: usersReducer,
   },
 });

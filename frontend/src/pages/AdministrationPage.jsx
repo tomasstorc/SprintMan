@@ -1,20 +1,18 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 
-import { useDispatch } from "react-redux";
-import { parseToken } from "../redux/apiFetch/LoginSlice";
+import { useSelector } from "react-redux";
 
 import SubjectForm from "../components/subjectForm/SubjectForm";
 import StudyProgramForm from "../components/studyProgramForm/StudyProgramForm";
-import { useEffect } from "react";
+
+import StudyProgramTable from "../components/administrationTables/StudyProgramTable";
+import SubjetsTable from "../components/administrationTables/SubjetsTable";
 const AdministrationPage = () => {
-  let dispatch = useDispatch();
+  const { token } = useSelector((state) => state.login);
   const [showSubject, setShowSubject] = useState(false);
   const [showProgram, setShowProgram] = useState(false);
 
-  useEffect(() => {
-    parseToken();
-  }, [dispatch]);
   return (
     <div>
       <Button
@@ -37,6 +35,8 @@ const AdministrationPage = () => {
       {showProgram && (
         <StudyProgramForm show={showProgram} setShow={setShowProgram} />
       )}
+      <StudyProgramTable />
+      <SubjetsTable token={token} />
     </div>
   );
 };
