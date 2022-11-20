@@ -39,7 +39,9 @@ const Navigation = () => {
                 title={<BiUserCircle size={20} />}
                 id="basic-nav-dropdown"
               >
-                <NavDropdown.Item href="#action/3.2">Logout</NavDropdown.Item>
+                <NavDropdown.Item href="/api/auth/logout">
+                  Logout
+                </NavDropdown.Item>
               </NavDropdown>
             ) : (
               <Nav.Link href="/login">Login</Nav.Link>

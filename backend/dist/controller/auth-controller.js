@@ -93,7 +93,7 @@ router.post("/login", (req, res) => {
         }
     });
 });
-router.get("/logout", isAuthenticated_1.default, (req, res) => {
+router.get("/logout", (req, res) => {
     res.clearCookie("token");
     return res.redirect("/");
 });
