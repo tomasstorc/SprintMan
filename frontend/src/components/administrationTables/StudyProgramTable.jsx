@@ -50,15 +50,22 @@ const columns = [
   },
 ];
 
-const StudyProgramTable = () => {
+const StudyProgramTable = ({ title }) => {
   const dispatch = useDispatch();
-  const { loading, programList } = useSelector((state) => state.studyProgram);
+  const { loading, programList = [] } = useSelector(
+    (state) => state.studyProgram
+  );
   useEffect(() => {
     dispatch(getStudyProgram());
   }, [dispatch]);
-  if (loading) return <p>Loading...</p>;
   return (
-    <DataTable title="Study Program" columns={columns} data={programList} />
+    <DataTable
+      title={title}
+      columns={columns}
+      data={programList}
+      pagination
+      progressPending={loading}
+    />
   );
 };
 

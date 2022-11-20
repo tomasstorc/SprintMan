@@ -48,14 +48,22 @@ const columns = [
     maxWidth: "300px",
   },
 ];
-const SubjetsTable = ({ token }) => {
+const SubjetsTable = ({ token, title }) => {
   const dispatch = useDispatch();
-  const { loading, subjects } = useSelector((state) => state.subject);
+  const { loading, subjects = [] } = useSelector((state) => state.subject);
   useEffect(() => {
     dispatch(getSubjects(token));
   }, [dispatch, token]);
-  if (loading) return <p>Loading...</p>;
-  return <DataTable title="Subjects" columns={columns} data={subjects} />;
+
+  return (
+    <DataTable
+      title={title}
+      columns={columns}
+      data={subjects}
+      pagination
+      progressPending={loading}
+    />
+  );
 };
 
 export default SubjetsTable;
