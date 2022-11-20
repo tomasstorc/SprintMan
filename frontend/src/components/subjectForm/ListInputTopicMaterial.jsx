@@ -1,17 +1,16 @@
-import { useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray } from "react-hook-form";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import ListGroup from "react-bootstrap/ListGroup";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiDeleteBin2Line } from "react-icons/ri";
 
-const ListInputTopicMaterial = ({ register, nestIndex }) => {
+const ListInputTopicMaterial = ({ register, nestIndex, control }) => {
   // const { register, control } = useForm({
   //   defaultValues: {
   //     materials: [{ title: "", link: "" }],
   //     topics: [{: "", title: "", link: "" }],
   //   },
   // });
-  const { control } = useForm();
 
   const { fields, append, remove } = useFieldArray({
     control,

@@ -24,7 +24,7 @@ const programmeSchema = new mongoose.Schema<IProgramme>({
     },
   },
   language: {
-    type: String,
+    type: [String],
     enum: {
       values: ["czech", "english"],
       message: `{VALUE} is not valid, must be czech or english`,
