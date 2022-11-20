@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Dropdown, Row, Col, Container } from "react-bootstrap";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import SubjectForm from "../components/subjectForm/SubjectForm";
 import StudyProgramForm from "../components/studyProgramForm/StudyProgramForm";
