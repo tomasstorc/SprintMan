@@ -17,7 +17,7 @@ router.get("/", isAuthenticated_1.default, isAdmin_1.default, (req, res) => {
             role: req.query.role,
         };
     }
-    const query = User_1.default.find(options).select(["name", "email"]);
+    const query = User_1.default.find(options).select(["name", "email", "role"]);
     query.exec((err, foundUsers) => {
         if (err) {
             return res.status(400).json(new error_response_1.default(err));

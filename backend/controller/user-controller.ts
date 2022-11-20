@@ -16,7 +16,7 @@ router.get("/", isAuthenticated, isAdmin, (req: Request, res: Response) => {
       role: req.query.role,
     };
   }
-  const query = User.find(options).select(["name", "email"]);
+  const query = User.find(options).select(["name", "email", "role"]);
   query.exec((err: CallbackError | undefined, foundUsers: Array<IUser>) => {
     if (err) {
       return res.status(400).json(new ErrorResponse(err));
