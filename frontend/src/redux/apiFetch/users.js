@@ -2,6 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
   users: [],
+  editUser: {},
+  editId: null,
   loading: false,
 };
 
@@ -13,6 +15,21 @@ export const getUsers = createAsyncThunk(
     const res = await fetch(`/api/user`, {
       headers: {
         authorization: `Bearer ${token}`,
+      },
+    }).then((data) => data.json());
+    console.log(res);
+    return res;
+  }
+);
+
+export const getUser = createAsyncThunk(
+  //action type string
+  "users/getUsers",
+  // callback function
+  async (data) => {
+    const res = await fetch(`/api/user/${data.id}`, {
+      headers: {
+        authorization: `Bearer ${data.token}`,
       },
     }).then((data) => data.json());
     console.log(res);
@@ -38,7 +55,11 @@ export const postUser = createAsyncThunk("user/postUser", async (data) => {
 export const usersSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {},
+  reducers: {
+    setEditId: (state, action) => {
+      state.editId = action.payload;
+    },
+  },
   extraReducers: {
     [postUser.rejected]: (state) => {
       state.loading = false;
@@ -66,7 +87,19 @@ export const usersSlice = createSlice({
     [getUsers.rejected]: (state) => {
       state.loading = false;
     },
+    [getUser.pending]: (state) => {
+      state.loading = true;
+    },
+    [getUser.rejected]: (state) => {
+      state.error = true;
+      state.loading = false;
+    },
+    [getUser.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.editUser = action.payload.data;
+    },
   },
 });
 
 export const usersReducer = usersSlice.reducer;
+export const { setEditId } = usersSlice.actions;

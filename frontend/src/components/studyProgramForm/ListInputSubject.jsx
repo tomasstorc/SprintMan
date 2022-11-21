@@ -4,11 +4,12 @@ import { Form, Button, Row, Col, Container, ListGroup } from "react-bootstrap";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { useSelector } from "react-redux";
-const ListInputSubject = ({ register, control, subjectType, name }) => {
+
+const ListInputSubject = ({ register, control, subjectType, name, data }) => {
   const { subjectNames } = useSelector((state) => state.subject);
   const { fields, append, remove } = useFieldArray({
     control,
-    name: subjectType,
+    name,
   });
 
   return (
