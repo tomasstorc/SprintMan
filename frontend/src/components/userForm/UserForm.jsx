@@ -33,14 +33,14 @@ const UserForm = ({ show, setShow }) => {
           <Form.Label>Full name</Form.Label>
           <Form.Control {...register("name", { required: true })} />
           <Form.Label>Email</Form.Label>
-          <Form.Control {...register("name", { required: true })} />
+          <Form.Control {...register("email", { required: true })} />
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
-            {...register("name", { required: true })}
+            {...register("password", { required: true })}
           />
           <Form.Label>Role</Form.Label>
-          <Form.Select {...register("degree", { required: true })}>
+          <Form.Select {...register("role", { required: true })}>
             <option value="admin">Administrator</option>
             <option value="editor">Editor</option>
             <option value="teacher">Teacher</option>

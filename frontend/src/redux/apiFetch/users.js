@@ -48,6 +48,7 @@ export const usersSlice = createSlice({
       state.loading = true;
     },
     [postUser.fulfilled]: (state, action) => {
+      console.log(action.payload.data);
       if (action.payload.data) {
         state.loading = false;
       } else {

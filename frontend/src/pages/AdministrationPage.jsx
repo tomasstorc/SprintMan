@@ -67,7 +67,7 @@ const AdministrationPage = () => {
                   setShowUser(!showUser);
                 }}
               >
-                Create Subject
+                Create User
               </Button>
             </Col>
             {showUser && <UserForm show={showUser} setShow={setShowUser} />}
