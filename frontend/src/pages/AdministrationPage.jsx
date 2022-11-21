@@ -9,6 +9,7 @@ import StudyProgramForm from "../components/studyProgramForm/StudyProgramForm";
 import StudyProgramTable from "../components/administrationTables/StudyProgramTable";
 import SubjetsTable from "../components/administrationTables/SubjetsTable";
 import UserTable from "../components/administrationTables/UserTable";
+import UserForm from "../components/userForm/UserForm";
 
 const AdministrationPage = () => {
   const type = {
@@ -20,6 +21,7 @@ const AdministrationPage = () => {
   const { token } = useSelector((state) => state.login);
   const [showSubject, setShowSubject] = useState(false);
   const [showProgram, setShowProgram] = useState(false);
+  const [showUser, setShowUser] = useState(false);
   console.log(token);
   return (
     <Container className="mt-5">
@@ -58,7 +60,17 @@ const AdministrationPage = () => {
 
         {table === type.users && (
           <>
-            {" "}
+            <Col md={"auto"}>
+              <Button
+                variant="dark"
+                onClick={() => {
+                  setShowUser(!showUser);
+                }}
+              >
+                Create Subject
+              </Button>
+            </Col>
+            {showUser && <UserForm show={showUser} setShow={setShowUser} />}
             <UserTable title={type.users} token={token} />
           </>
         )}
@@ -76,7 +88,7 @@ const AdministrationPage = () => {
             </Col>
             {showSubject && (
               <SubjectForm show={showSubject} setShow={setShowSubject} />
-            )}{" "}
+            )}
             <SubjetsTable title={type.subjects} token={token} />
           </>
         )}

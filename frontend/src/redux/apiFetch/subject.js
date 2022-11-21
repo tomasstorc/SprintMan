@@ -63,7 +63,7 @@ export const subject = createSlice({
     },
     [postSubject.fulfilled]: (state, action) => {
       console.log(action.payload);
-      if (action.payload.dsts) {
+      if (action.payload.data) {
         state.loading = false;
       } else {
         state.error = true;
