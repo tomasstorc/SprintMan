@@ -35,6 +35,27 @@ export const postUser = createAsyncThunk("user/postUser", async (data) => {
   return res;
 });
 
+export const editUser = createAsyncThunk(
+  "user/edittUser",
+  async (data, thunkAPI) => {
+    const res = await fetch("/api/user/", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${data.token}`,
+      },
+
+      body: JSON.stringify(data.body),
+    })
+      .then((data) => {
+        thunkAPI.dispatch(getUsers(data.token));
+        return data.json();
+      })
+      .catch((err) => err);
+    return res;
+  }
+);
+
 export const usersSlice = createSlice({
   name: "users",
   initialState,
@@ -48,6 +69,22 @@ export const usersSlice = createSlice({
       state.loading = true;
     },
     [postUser.fulfilled]: (state, action) => {
+      console.log(action.payload.data);
+      if (action.payload.data) {
+        state.loading = false;
+      } else {
+        state.error = true;
+        state.errorMsg = action.payload.errorMsg;
+      }
+    },
+    [editUser.rejected]: (state) => {
+      state.loading = false;
+      state.error = true;
+    },
+    [editUser.pending]: (state) => {
+      state.loading = true;
+    },
+    [editUser.fulfilled]: (state, action) => {
       console.log(action.payload.data);
       if (action.payload.data) {
         state.loading = false;
