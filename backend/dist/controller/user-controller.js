@@ -9,6 +9,8 @@ const isAdmin_1 = __importDefault(require("../middleware/isAdmin"));
 const isAuthenticated_1 = __importDefault(require("../middleware/isAuthenticated"));
 const error_response_1 = __importDefault(require("../response/error-response"));
 const success_response_1 = __importDefault(require("../response/success-response"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const validate_password_1 = __importDefault(require("../utils/validate-password"));
 const router = express_1.default.Router();
 router.get("/", isAuthenticated_1.default, isAdmin_1.default, (req, res) => {
     let options = new Object();
@@ -27,5 +29,71 @@ router.get("/", isAuthenticated_1.default, isAdmin_1.default, (req, res) => {
         }
         return res.status(200).json(new success_response_1.default("success", foundUsers));
     });
+});
+router.post("/", isAuthenticated_1.default, isAdmin_1.default, (req, res) => {
+    const body = req.body;
+    if (!(0, validate_password_1.default)(body.password)) {
+        return res
+            .status(400)
+            .json(new error_response_1.default("Password did not meet minimum requirements"));
+    }
+    if (!(body.username || body.password || body.role || body.name)) {
+        res.status(400).json(new error_response_1.default("Some required fields are missing"));
+    }
+    else {
+        User_1.default.findOne({ email: body.email }, (err, foundUser) => {
+            if (foundUser) {
+                res
+                    .status(400)
+                    .json(new error_response_1.default("user with given email already exists"));
+            }
+            else if (err) {
+                res.status(400).json(new error_response_1.default(err));
+            }
+            else {
+                bcrypt_1.default.hash(body.password, 10, (err, hash) => {
+                    if (err)
+                        res.status(400).json(new error_response_1.default(err));
+                    const user = new User_1.default({
+                        email: body.email,
+                        name: body.name,
+                        password: hash,
+                        role: body.role,
+                    });
+                    user.save((err, user) => {
+                        if (err)
+                            return res.status(400).json(new error_response_1.default(err));
+                        return res.json(new success_response_1.default("User created"));
+                    });
+                });
+            }
+        });
+    }
+});
+router.delete("/:id", isAuthenticated_1.default, isAdmin_1.default, (req, res) => {
+    User_1.default.findByIdAndDelete(req.params.id, (err, deletedUser) => {
+        if (err) {
+            return res.status(400).json(new error_response_1.default(err));
+        }
+        return res.status(204);
+    });
+});
+router.put("/:id", isAuthenticated_1.default, isAdmin_1.default, (req, res) => {
+    if (req.body.password) {
+        bcrypt_1.default.hash(req.body.password, 10, (err, hash) => {
+            User_1.default.findByIdAndUpdate(req.params.id, {
+                name: req.body.name,
+                email: req.body.email,
+                password: hash,
+            }, { runValidators: true, upsert: true, rawResult: true }, (err, updatedUser) => {
+                if (err) {
+                    return res.status(400).json(new error_response_1.default(err));
+                }
+                return res
+                    .status(200)
+                    .json(new success_response_1.default("updated", updatedUser.value));
+            });
+        });
+    }
 });
 exports.default = router;
