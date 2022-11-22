@@ -8,6 +8,7 @@ import { getSubjectsNames } from "../../redux/apiFetch/subject";
 import {
   putProgram,
   programDetail,
+  getStudyProgram,
 } from "../../redux/apiFetch/StudyProgramSlice";
 import { useEffect } from "react";
 import { useCallback } from "react";
@@ -45,7 +46,11 @@ const StudyProgramFormEdit = ({ show, setShow }) => {
       token: token,
       body: data,
     };
-    dispatch(putProgram(programPost));
+    dispatch(putProgram(programPost))
+      .unwrap()
+      .then(() => {
+        dispatch(getStudyProgram());
+      });
   };
 
   return (

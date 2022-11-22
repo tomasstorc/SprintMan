@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ListInputSubject from "./ListInputSubject";
 import { useEffect } from "react";
 import { getSubjectsNames } from "../../redux/apiFetch/subject";
+import { getStudyProgram } from "../../redux/apiFetch/StudyProgramSlice";
 
 const StudyProgramForm = ({ show, setShow }) => {
   let { token } = useSelector((state) => state.login);
@@ -33,7 +34,11 @@ const StudyProgramForm = ({ show, setShow }) => {
       token: token,
       body: data,
     };
-    dispatch(postProgram(programPost));
+    dispatch(postProgram(programPost))
+      .unwrap()
+      .then(() => {
+        dispatch(getStudyProgram());
+      });
   };
 
   return (

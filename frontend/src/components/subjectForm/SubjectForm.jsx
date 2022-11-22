@@ -5,6 +5,7 @@ import ListInputTopic from "./ListInputTopics";
 import { useSelector } from "react-redux";
 import { postSubject } from "../../redux/apiFetch/subject";
 import { useDispatch } from "react-redux";
+import { getSubjects } from "../../redux/apiFetch/subject";
 
 const SubjectForm = ({ show, setShow }) => {
   let dispatch = useDispatch();
@@ -28,7 +29,11 @@ const SubjectForm = ({ show, setShow }) => {
       token: token,
       body: data,
     };
-    dispatch(postSubject(subjectPost));
+    dispatch(postSubject(subjectPost))
+      .unwrap()
+      .then(() => {
+        dispatch(getSubjects(token));
+      });
   };
 
   return (
