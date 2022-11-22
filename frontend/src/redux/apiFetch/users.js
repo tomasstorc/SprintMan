@@ -9,7 +9,7 @@ const initialState = {
 
 export const getUsers = createAsyncThunk(
   //action type string
-  "users/getUserByIds",
+  "users/getUsers",
   // callback function
   async (token) => {
     const res = await fetch(`/api/user`, {
@@ -53,9 +53,9 @@ export const postUser = createAsyncThunk("user/postUser", async (data) => {
 });
 
 export const editUser = createAsyncThunk(
-  "user/edittUser",
+  "user/editUser",
   async (data, thunkAPI) => {
-    const res = await fetch("/api/user/", {
+    const res = await fetch(`/api/user/${data.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -65,7 +65,6 @@ export const editUser = createAsyncThunk(
       body: JSON.stringify(data.body),
     })
       .then((data) => {
-        // thunkAPI.dispatch(getUserByIds(data.token));
         return data.json();
       })
       .catch((err) => err);
@@ -106,7 +105,7 @@ export const usersSlice = createSlice({
       state.loading = true;
     },
     [editUser.fulfilled]: (state, action) => {
-      console.log(action.payload.data);
+      console.log(action.payload);
       if (action.payload.data) {
         state.loading = false;
       } else {
@@ -118,7 +117,6 @@ export const usersSlice = createSlice({
       state.loading = true;
     },
     [getUsers.fulfilled]: (state, { payload }) => {
-      console.log(payload);
       state.loading = false;
       state.users = payload.data;
     },

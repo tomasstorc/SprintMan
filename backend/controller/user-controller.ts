@@ -125,6 +125,7 @@ router.put("/:id", isAuthenticated, isAdmin, (req: Request, res: Response) => {
             name: req.body.name,
             email: req.body.email,
             password: hash,
+            role: req.body.role,
           },
           { runValidators: true, upsert: true, rawResult: true },
           (err: CallbackError | undefined, updatedUser: any) => {
@@ -136,6 +137,18 @@ router.put("/:id", isAuthenticated, isAdmin, (req: Request, res: Response) => {
               .json(new SuccessResponse("updated", updatedUser.value));
           }
         );
+      }
+    );
+  } else {
+    User.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+
+      (err: CallbackError | undefined, updatedUser: IUser) => {
+        if (err) {
+          return res.status(400).json(new ErrorResponse(err));
+        }
+        return res.status(200).json(new SuccessResponse("updated"));
       }
     );
   }
