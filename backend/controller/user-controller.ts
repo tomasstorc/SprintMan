@@ -30,6 +30,25 @@ router.get("/", isAuthenticated, isAdmin, (req: Request, res: Response) => {
   });
 });
 
+router.get("/:id", isAuthenticated, isAdmin, (req: Request, res: Response) => {
+  const query = User.findOne({ _id: req.params.id }).select([
+    "name",
+    "email",
+    "role",
+  ]);
+  query.exec((err: CallbackError | undefined, foundUser: IUser | null) => {
+    if (err) {
+      return res.status(400).json(new ErrorResponse(err));
+    }
+    if (!foundUser) {
+      return res
+        .status(404)
+        .json(new ErrorResponse("no user with given id found"));
+    }
+    return res.status(200).json(new SuccessResponse("success", foundUser));
+  });
+});
+
 router.post("/", isAuthenticated, isAdmin, (req: Request, res: Response) => {
   const body = req.body;
 

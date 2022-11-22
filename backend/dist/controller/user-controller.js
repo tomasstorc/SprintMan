@@ -30,6 +30,24 @@ router.get("/", isAuthenticated_1.default, isAdmin_1.default, (req, res) => {
         return res.status(200).json(new success_response_1.default("success", foundUsers));
     });
 });
+router.get("/:id", isAuthenticated_1.default, isAdmin_1.default, (req, res) => {
+    const query = User_1.default.findOne({ _id: req.params.id }).select([
+        "name",
+        "email",
+        "role",
+    ]);
+    query.exec((err, foundUser) => {
+        if (err) {
+            return res.status(400).json(new error_response_1.default(err));
+        }
+        if (!foundUser) {
+            return res
+                .status(404)
+                .json(new error_response_1.default("no user with given id found"));
+        }
+        return res.status(200).json(new success_response_1.default("success", foundUser));
+    });
+});
 router.post("/", isAuthenticated_1.default, isAdmin_1.default, (req, res) => {
     const body = req.body;
     if (!(0, validate_password_1.default)(body.password)) {
