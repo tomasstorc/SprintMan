@@ -3,11 +3,19 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "../../redux/apiFetch/users";
 import { MdModeEditOutline, MdDelete } from "react-icons/md";
+import { setEditId } from "../../redux/apiFetch/users";
+import { useState } from "react";
+import UserFormEdit from "../userForm/UserFormEdit";
 
 const UserTable = ({ token, title }) => {
-  const dispatch = useDispatch();
-  console.log(token);
-  const { loading, users } = useSelector((state) => state.users);
+  let dispatch = useDispatch();
+  const [show, setShow] = useState(false);
+
+  const { loading, users = [] } = useSelector((state) => state.users);
+
+  useEffect(() => {
+    dispatch(getUsers(token));
+  }, [token, dispatch]);
 
   const columns = [
     {
@@ -27,7 +35,14 @@ const UserTable = ({ token, title }) => {
     },
     {
       name: "Edit",
-      selector: (row) => <MdModeEditOutline />,
+      selector: (row) => (
+        <MdModeEditOutline
+          onClick={() => {
+            dispatch(setEditId(row._id));
+            setShow(!show);
+          }}
+        />
+      ),
       sortable: false,
     },
     {
@@ -37,9 +52,6 @@ const UserTable = ({ token, title }) => {
     },
   ];
 
-  useEffect(() => {
-    dispatch(getUsers(token));
-  }, [token, dispatch]);
   return (
     <div>
       {" "}
@@ -50,6 +62,7 @@ const UserTable = ({ token, title }) => {
         pagination
         progressPending={loading}
       />
+      {show && <UserFormEdit show={show} setShow={setShow} />}
     </div>
   );
 };

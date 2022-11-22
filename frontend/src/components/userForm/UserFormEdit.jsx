@@ -1,23 +1,40 @@
+import { useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { Form, Button, Modal } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { editUser } from "../../redux/apiFetch/users";
+import { editUser, getUserById } from "../../redux/apiFetch/users";
 import { useDispatch } from "react-redux";
 
 const UserFormEdit = ({ show, setShow, name, email, role, password }) => {
   let dispatch = useDispatch();
   let { token } = useSelector((state) => state.login);
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
-      name: name,
-      email: email,
-      role: role,
-      password: password,
-    },
+  let { editId, userToEdit } = useSelector((state) => state.users);
+
+  let MYdefaultValues = {
+    name: userToEdit?.name,
+    email: userToEdit?.email,
+    role: userToEdit?.role,
+  };
+  const { register, handleSubmit, reset } = useForm({
+    defaultValues: MYdefaultValues,
   });
+
+  const resetAsyncForm = useCallback(async () => {
+    let payload = {
+      id: editId,
+      token,
+    };
+    let res = await dispatch(getUserById(payload));
+    console.log(res);
+    reset(res.payload.data);
+  }, [dispatch, editId, reset]);
+
+  useEffect(() => {
+    resetAsyncForm();
+  }, [resetAsyncForm]);
   const onSubmit = (data) => {
-    console.log(data);
     let userEdit = {
+      id: userToEdit._id,
       token: token,
       body: data,
     };

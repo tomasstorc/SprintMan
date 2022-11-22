@@ -2,14 +2,14 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
   users: [],
-  editUser: {},
+  userToEdit: {},
   editId: null,
   loading: false,
 };
 
 export const getUsers = createAsyncThunk(
   //action type string
-  "users/getUsers",
+  "users/getUserByIds",
   // callback function
   async (token) => {
     const res = await fetch(`/api/user`, {
@@ -17,14 +17,14 @@ export const getUsers = createAsyncThunk(
         authorization: `Bearer ${token}`,
       },
     }).then((data) => data.json());
-    console.log(res);
+
     return res;
   }
 );
 
-export const getUser = createAsyncThunk(
+export const getUserById = createAsyncThunk(
   //action type string
-  "users/getUsers",
+  "users/getUserById",
   // callback function
   async (data) => {
     const res = await fetch(`/api/user/${data.id}`, {
@@ -32,7 +32,7 @@ export const getUser = createAsyncThunk(
         authorization: `Bearer ${data.token}`,
       },
     }).then((data) => data.json());
-    console.log(res);
+
     return res;
   }
 );
@@ -65,7 +65,7 @@ export const editUser = createAsyncThunk(
       body: JSON.stringify(data.body),
     })
       .then((data) => {
-        thunkAPI.dispatch(getUsers(data.token));
+        // thunkAPI.dispatch(getUserByIds(data.token));
         return data.json();
       })
       .catch((err) => err);
@@ -118,22 +118,24 @@ export const usersSlice = createSlice({
       state.loading = true;
     },
     [getUsers.fulfilled]: (state, { payload }) => {
+      console.log(payload);
       state.loading = false;
       state.users = payload.data;
     },
     [getUsers.rejected]: (state) => {
       state.loading = false;
     },
-    [getUser.pending]: (state) => {
+    [getUserById.pending]: (state) => {
       state.loading = true;
     },
-    [getUser.rejected]: (state) => {
+    [getUserById.rejected]: (state, action) => {
+      console.log(action.payload.data);
       state.error = true;
       state.loading = false;
     },
-    [getUser.fulfilled]: (state, action) => {
+    [getUserById.fulfilled]: (state, action) => {
       state.loading = false;
-      state.editUser = action.payload.data;
+      state.userToEdit = action.payload.data;
     },
   },
 });

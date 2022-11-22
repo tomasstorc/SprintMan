@@ -22,7 +22,7 @@ const AdministrationPage = () => {
   const [showSubject, setShowSubject] = useState(false);
   const [showProgram, setShowProgram] = useState(false);
   const [showUser, setShowUser] = useState(false);
-  console.log(token);
+
   return (
     <Container className="mt-5">
       <Row>
