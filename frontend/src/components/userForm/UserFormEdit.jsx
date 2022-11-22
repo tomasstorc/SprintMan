@@ -27,7 +27,7 @@ const UserFormEdit = ({ show, setShow, name, email, role, password }) => {
     let res = await dispatch(getUserById(payload));
     console.log(res);
     reset(res.payload.data);
-  }, [dispatch, editId, reset]);
+  }, [dispatch, editId, reset, token]);
 
   useEffect(() => {
     resetAsyncForm();
