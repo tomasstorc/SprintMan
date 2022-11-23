@@ -1,52 +1,48 @@
 import { useForm } from "react-hook-form";
 import { Form, Button, Row, Col, Modal } from "react-bootstrap";
-
-import { useDispatch, useSelector } from "react-redux";
-
-import {
-  putProgram,
-  programDetail,
-  getStudyProgram,
-} from "../../redux/apiFetch/StudyProgramSlice";
-import { useEffect } from "react";
 import { useCallback } from "react";
 
-const StudyProgramFormEdit = ({ show, setShow }) => {
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { getSubjects } from "../../redux/apiFetch/subject";
+import { getSubjectById, putSubject } from "../../redux/apiFetch/subject";
+import { useEffect } from "react";
+
+const SubjectFormEdit = ({ show, setShow }) => {
   let { token } = useSelector((state) => state.login);
-  let { editProgram, editId } = useSelector((state) => state.studyProgram);
-  let MYdefaultValues = {
-    name: editProgram?.name,
-    length: editProgram?.length,
-    language: editProgram?.language,
-    degree: editProgram?.degree,
-    description: editProgram?.description,
-    imageUrl: editProgram?.imageUrl,
-    field: editProgram?.field,
-    osubjects: editProgram?.osubjects,
-    ssubjects: editProgram?.ssubjects,
-    ossubjects: editProgram?.ossubjects,
+  let { editId, subjectToEdit } = useSelector((state) => state.subject);
+  const MYdefaultValues = {
+    name: subjectToEdit?.name,
+    credits: subjectToEdit?.credits,
+    language: subjectToEdit?.language,
+    degree: subjectToEdit?.degree,
+    goal: subjectToEdit?.goal,
+    teacher: subjectToEdit?.teacher,
+    supervisor: subjectToEdit?.supervisor,
   };
-  let dispatch = useDispatch();
   const { register, handleSubmit, reset } = useForm({
     defaultValues: MYdefaultValues,
   });
+  let dispatch = useDispatch();
+
   const resetAsyncForm = useCallback(async () => {
-    let res = await dispatch(programDetail(editId));
+    let res = await dispatch(getSubjectById(editId));
     reset(res.payload.data);
   }, [dispatch, editId, reset]);
   useEffect(() => {
     resetAsyncForm();
-  }, [resetAsyncForm, token, dispatch]);
+  }, [resetAsyncForm]);
 
   const onSubmit = (data) => {
-    const programPost = {
+    let subjectPost = {
       token: token,
       body: data,
+      id: editId,
     };
-    dispatch(putProgram(programPost))
+    dispatch(putSubject(subjectPost))
       .unwrap()
       .then(() => {
-        dispatch(getStudyProgram());
+        dispatch(getSubjects(token));
       });
   };
 
@@ -57,13 +53,13 @@ const StudyProgramFormEdit = ({ show, setShow }) => {
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Label>Study program name</Form.Label>
+          <Form.Label>Subject name</Form.Label>
           <Form.Control {...register("name", { required: true })} />
           <Row>
             <Col md={3}>
-              <Form.Label>Length</Form.Label>
+              <Form.Label>Credits</Form.Label>
               <Form.Control
-                {...register("length", { required: true })}
+                {...register("credits", { required: true })}
                 type="number"
               />
             </Col>
@@ -77,25 +73,22 @@ const StudyProgramFormEdit = ({ show, setShow }) => {
             <Col md={5}>
               <Form.Label>Degree of study</Form.Label>
               <Form.Select {...register("degree", { required: true })}>
-                {" "}
                 <option value="Bc.">Bc.</option>
                 <option value="Ing.">Ing.</option>
               </Form.Select>
             </Col>
           </Row>
-          <Form.Label>Field</Form.Label>
-          <Form.Select {...register("field", { required: true })}>
-            {" "}
-            <option value="it">Information technologies</option>
-            <option value="business">Business and economics</option>
-          </Form.Select>
-          <Form.Label>Image URL</Form.Label>
-          <Form.Control {...register("imageUrl", { required: true })} />
-          <Form.Label>Description</Form.Label>
+          <Form.Label>Goal and description</Form.Label>
           <Form.Control
             as="textarea"
-            {...register("description", { required: true })}
+            {...register("goal", { required: true })}
           />
+
+          <Form.Label>Teacher</Form.Label>
+          <Form.Control {...register("teacher", { required: true })} />
+          <Form.Label>Supervisor</Form.Label>
+
+          <Form.Control {...register("supervisor", { required: true })} />
         </Form>
       </Modal.Body>
       <Modal.Footer>
@@ -115,4 +108,4 @@ const StudyProgramFormEdit = ({ show, setShow }) => {
   );
 };
 
-export default StudyProgramFormEdit;
+export default SubjectFormEdit;

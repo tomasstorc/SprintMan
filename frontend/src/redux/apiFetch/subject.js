@@ -18,6 +18,24 @@ export const postSubject = createAsyncThunk(
   }
 );
 
+export const putSubject = createAsyncThunk(
+  "subject/putSubject",
+  async (data) => {
+    const res = await fetch(`/api/subject/${data.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${data.token}`,
+      },
+
+      body: JSON.stringify(data.body),
+    })
+      .then((data) => data.json())
+      .catch((err) => err);
+    return res;
+  }
+);
+
 export const getSubjectsNames = createAsyncThunk(
   "subject/getSubjectsNames",
   async (token, thunkAPI) => {
@@ -43,6 +61,16 @@ export const getSubjects = createAsyncThunk(
   }
 );
 
+export const getSubjectById = createAsyncThunk(
+  //action type string
+  "subjectDetail/getSubjectById",
+  // callback function
+  async (id) => {
+    const res = await fetch(`/api/subject/${id}`).then((data) => data.json());
+    return res;
+  }
+);
+
 export const subject = createSlice({
   name: "subject",
   initialState: {
@@ -51,8 +79,14 @@ export const subject = createSlice({
     errorMsg: undefined,
     subjectNames: [],
     subjects: [],
+    subjectToEdit: {},
+    editId: null,
   },
-  reducers: {},
+  reducers: {
+    setEditId: (state, action) => {
+      state.editId = action.payload;
+    },
+  },
   extraReducers: {
     [postSubject.rejected]: (state) => {
       state.loading = false;
@@ -94,5 +128,28 @@ export const subject = createSlice({
       state.subjects = action.payload.data;
       state.loading = false;
     },
+    [putSubject.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [putSubject.rejected]: (state) => {
+      state.loading = false;
+      state.error = true;
+    },
+    [putSubject.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [getSubjectById.pending]: (state) => {
+      state.loading = true;
+    },
+    [getSubjectById.rejected]: (state) => {
+      state.loading = false;
+      state.error = true;
+    },
+    [getSubjectById.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.subjectToEdit = action.payload.data;
+    },
   },
 });
+
+export const { setEditId } = subject.actions;
