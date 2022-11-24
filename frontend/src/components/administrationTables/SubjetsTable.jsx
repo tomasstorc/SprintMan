@@ -5,11 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSubjects } from "../../redux/apiFetch/subject";
 import { MdModeEditOutline, MdDelete } from "react-icons/md";
 import { setEditId } from "../../redux/apiFetch/subject";
+import { setDeleteId } from "../../redux/apiFetch/deleteSlice";
 import SubjectFormEdit from "../subjectForm/SubjectFormEdit";
+import DeleteModal from "../DeleteModal";
 
 const SubjetsTable = ({ token, title }) => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
   const columns = [
     {
       name: "Subject name",
@@ -56,7 +59,14 @@ const SubjetsTable = ({ token, title }) => {
     },
     {
       name: "Delete",
-      selector: (row) => <MdDelete />,
+      selector: (row) => (
+        <MdDelete
+          onClick={() => {
+            dispatch(setDeleteId(row._id));
+            setShowDelete(!showDelete);
+          }}
+        />
+      ),
       sortable: false,
       maxWidth: "300px",
     },
@@ -77,6 +87,13 @@ const SubjetsTable = ({ token, title }) => {
         progressPending={loading}
       />
       {show && <SubjectFormEdit show={show} setShow={setShow} />}
+      {showDelete && (
+        <DeleteModal
+          showDelete={showDelete}
+          setShowDelete={setShowDelete}
+          type="subject"
+        />
+      )}
     </div>
   );
 };

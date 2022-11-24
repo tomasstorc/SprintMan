@@ -5,11 +5,14 @@ import { getUsers } from "../../redux/apiFetch/users";
 import { MdModeEditOutline, MdDelete } from "react-icons/md";
 import { setEditId } from "../../redux/apiFetch/users";
 import { useState } from "react";
+import { setDeleteId } from "../../redux/apiFetch/deleteSlice";
 import UserFormEdit from "../userForm/UserFormEdit";
+import DeleteModal from "../DeleteModal";
 
 const UserTable = ({ token, title }) => {
   let dispatch = useDispatch();
   const [show, setShow] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
 
   const { loading, users } = useSelector((state) => state.users);
 
@@ -47,7 +50,14 @@ const UserTable = ({ token, title }) => {
     },
     {
       name: "Delete",
-      selector: (row) => <MdDelete />,
+      selector: (row) => (
+        <MdDelete
+          onClick={() => {
+            dispatch(setDeleteId(row._id));
+            setShowDelete(!showDelete);
+          }}
+        />
+      ),
       sortable: false,
     },
   ];
@@ -63,6 +73,13 @@ const UserTable = ({ token, title }) => {
         progressPending={loading}
       />
       {show && <UserFormEdit show={show} setShow={setShow} />}
+      {showDelete && (
+        <DeleteModal
+          showDelete={showDelete}
+          setShowDelete={setShowDelete}
+          type="user"
+        />
+      )}
     </div>
   );
 };

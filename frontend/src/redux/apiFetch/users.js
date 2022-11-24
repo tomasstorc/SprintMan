@@ -89,7 +89,7 @@ export const usersSlice = createSlice({
       state.loading = true;
     },
     [postUser.fulfilled]: (state, action) => {
-      console.log(action.payload.data);
+      console.log(action.payload);
       if (action.payload.data) {
         state.loading = false;
       } else {
@@ -127,7 +127,6 @@ export const usersSlice = createSlice({
       state.loading = true;
     },
     [getUserById.rejected]: (state, action) => {
-      console.log(action.payload.data);
       state.error = true;
       state.loading = false;
     },

@@ -6,11 +6,14 @@ import {
   getStudyProgram,
   setEditId,
 } from "../../redux/apiFetch/StudyProgramSlice";
+import { setDeleteId } from "../../redux/apiFetch/deleteSlice";
 import { MdModeEditOutline, MdDelete } from "react-icons/md";
 import StudyProgramFormEdit from "../studyProgramForm/StudyProgramFormEdit";
+import DeleteModal from "../DeleteModal";
 
 const StudyProgramTable = ({ title }) => {
-  const [show, setShow] = useState();
+  const [show, setShow] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
   const dispatch = useDispatch();
   const columns = [
     {
@@ -59,7 +62,14 @@ const StudyProgramTable = ({ title }) => {
     },
     {
       name: "Delete",
-      selector: (row) => <MdDelete />,
+      selector: (row) => (
+        <MdDelete
+          onClick={() => {
+            dispatch(setDeleteId(row._id));
+            setShowDelete(!showDelete);
+          }}
+        />
+      ),
       sortable: false,
       maxWidth: "300px",
     },
@@ -82,6 +92,13 @@ const StudyProgramTable = ({ title }) => {
       />
 
       {show && <StudyProgramFormEdit show={show} setShow={setShow} />}
+      {showDelete && (
+        <DeleteModal
+          showDelete={showDelete}
+          setShowDelete={setShowDelete}
+          type="programme"
+        />
+      )}
     </div>
   );
 };
