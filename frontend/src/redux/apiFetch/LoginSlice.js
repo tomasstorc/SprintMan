@@ -10,6 +10,7 @@ const initialState = {
   error: false,
   errorMsg: undefined,
   user: null,
+  refresh: false,
 };
 
 export const getLogin = createAsyncThunk(
@@ -24,6 +25,19 @@ export const getLogin = createAsyncThunk(
       },
 
       body: JSON.stringify(data),
+    }).then((data) => data.json());
+    return res;
+  }
+);
+
+export const refreshToken = createAsyncThunk(
+  "login/refreshToken",
+  async (token) => {
+    const res = await fetch("/api/auth/refresh", {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
     }).then((data) => data.json());
     return res;
   }
@@ -44,6 +58,16 @@ export const loginSlice = createSlice({
         state.user = jwt(cookies.get("token"));
       } else {
         state.user = undefined;
+      }
+    },
+    checkRefresh: (state) => {
+      let days =
+        new Date(state.user.exp * 1000).getDate() - new Date().getDate();
+
+      if (days < 4) {
+        state.refresh = true;
+      } else {
+        state.refresh = false;
       }
     },
   },
@@ -79,8 +103,25 @@ export const loginSlice = createSlice({
       state.token = "";
       state.user = undefined;
     },
+    [refreshToken.rejected]: (state, action) => {
+      state.error = true;
+      state.loading = false;
+      state.errorMsg = action.payload.errorMsg;
+    },
+    [refreshToken.fulfilled]: (state, { payload }) => {
+      if (payload.data) {
+        state.loading = false;
+        state.token = payload.data;
+        state.errorMsg = undefined;
+        state.user = jwt(payload.data);
+      } else {
+        state.loading = false;
+        state.error = true;
+        state.errorMsg = payload.errorMsg;
+      }
+    },
   },
 });
 
 export const loginReducer = loginSlice.reducer;
-export const { parseToken } = loginSlice.actions;
+export const { parseToken, checkRefresh } = loginSlice.actions;

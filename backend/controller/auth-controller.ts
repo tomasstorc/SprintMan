@@ -8,6 +8,7 @@ import IUser from "../interface/user";
 
 import ErrorResponse from "../response/error-response";
 import SuccessResponse from "../response/success-response";
+import isAuthenticated from "../middleware/isAuthenticated";
 
 const router = express.Router();
 
@@ -43,6 +44,7 @@ router.post("/login", (req: Request, res: Response) => {
               const token = jwt.sign(payload, process.env.JWT_SECRET, {
                 expiresIn: "7d",
               });
+
               res.cookie("token", token, { secure: true });
               res.status(200).json(new SuccessResponse("logged in", token));
             }
@@ -51,6 +53,21 @@ router.post("/login", (req: Request, res: Response) => {
       }
     }
   );
+});
+
+router.get("/refresh", isAuthenticated, (req: Request, res: Response) => {
+  res.clearCookie("token");
+  let payload = {
+    name: req.user?.name,
+    email: req.user?.email,
+    role: req.user?.role,
+  };
+  const token = jwt.sign(payload, process.env.JWT_SECRET, {
+    expiresIn: "7d",
+  });
+
+  res.cookie("token", token, { secure: true });
+  res.status(200).json(new SuccessResponse("refreshed", token));
 });
 
 router.get("/logout", (req: Request, res: Response) => {
