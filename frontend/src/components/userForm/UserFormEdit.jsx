@@ -15,7 +15,12 @@ const UserFormEdit = ({ show, setShow, name, email, role, password }) => {
     email: userToEdit?.email,
     role: userToEdit?.role,
   };
-  const { register, handleSubmit, reset } = useForm({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
     defaultValues: MYdefaultValues,
   });
 
@@ -55,13 +60,36 @@ const UserFormEdit = ({ show, setShow, name, email, role, password }) => {
         <Form>
           <Form.Label>Full name</Form.Label>
           <Form.Control {...register("name", { required: true })} />
+          {errors?.name?.type === "required" && (
+            <p className="error">This field is required</p>
+          )}
           <Form.Label>Email</Form.Label>
-          <Form.Control {...register("email", { required: true })} />
+          <Form.Control
+            {...register("email", {
+              required: true,
+              pattern: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+            })}
+          />
+          {errors?.email?.type === "required" && (
+            <p className="error">This field is required</p>
+          )}
+          {errors?.email?.type === "pattern" && (
+            <p className="error">Invalid email adress</p>
+          )}
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
-            {...register("password", { required: false })}
+            {...register("password", {
+              required: false,
+              pattern: /^(?=.*[a-z])(?=.*[A-Z]).{6}/,
+            })}
           />
+          {errors?.password?.type === "pattern" && (
+            <p className="error">
+              Password must have at least one uppercase (A-Z), one lowercase
+              (a-z) and at least 6 characters.
+            </p>
+          )}
           <Form.Label>Role</Form.Label>
           <Form.Select {...register("role", { required: true })}>
             <option value="admin">Administrator</option>
@@ -69,6 +97,9 @@ const UserFormEdit = ({ show, setShow, name, email, role, password }) => {
             <option value="teacher">Teacher</option>
             <option value="student">Student</option>
           </Form.Select>
+          {errors?.role?.type === "required" && (
+            <p className="error">This field is required</p>
+          )}
         </Form>
       </Modal.Body>
       <Modal.Footer>

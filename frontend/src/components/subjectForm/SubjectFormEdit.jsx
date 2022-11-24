@@ -20,7 +20,12 @@ const SubjectFormEdit = ({ show, setShow }) => {
     teacher: subjectToEdit?.teacher,
     supervisor: subjectToEdit?.supervisor,
   };
-  const { register, handleSubmit, reset } = useForm({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
     defaultValues: MYdefaultValues,
   });
   let dispatch = useDispatch();
@@ -55,6 +60,10 @@ const SubjectFormEdit = ({ show, setShow }) => {
         <Form>
           <Form.Label>Subject name</Form.Label>
           <Form.Control {...register("name", { required: true })} />
+          {errors?.name?.type === "required" && (
+            <p className="error">This field is required</p>
+          )}
+
           <Row>
             <Col md={3}>
               <Form.Label>Credits</Form.Label>
@@ -62,6 +71,9 @@ const SubjectFormEdit = ({ show, setShow }) => {
                 {...register("credits", { required: true })}
                 type="number"
               />
+              {errors?.credits?.type === "required" && (
+                <p className="error">This field is required</p>
+              )}
             </Col>
             <Col md={4}>
               <Form.Label>Language</Form.Label>
@@ -69,6 +81,9 @@ const SubjectFormEdit = ({ show, setShow }) => {
                 <option value="czech">Czech</option>
                 <option value="english">English</option>
               </Form.Select>
+              {errors?.language?.type === "required" && (
+                <p className="error">This field is required</p>
+              )}
             </Col>
             <Col md={5}>
               <Form.Label>Degree of study</Form.Label>
@@ -76,6 +91,9 @@ const SubjectFormEdit = ({ show, setShow }) => {
                 <option value="Bc.">Bc.</option>
                 <option value="Ing.">Ing.</option>
               </Form.Select>
+              {errors?.degree?.type === "required" && (
+                <p className="error">This field is required</p>
+              )}
             </Col>
           </Row>
           <Form.Label>Goal and description</Form.Label>
@@ -83,12 +101,22 @@ const SubjectFormEdit = ({ show, setShow }) => {
             as="textarea"
             {...register("goal", { required: true })}
           />
+          {errors?.goal?.type === "required" && (
+            <p className="error">This field is required</p>
+          )}
 
           <Form.Label>Teacher</Form.Label>
           <Form.Control {...register("teacher", { required: true })} />
+          {errors?.teacher?.type === "required" && (
+            <p className="error">This field is required</p>
+          )}
+
           <Form.Label>Supervisor</Form.Label>
 
           <Form.Control {...register("supervisor", { required: true })} />
+          {errors?.name?.type === "supervisor" && (
+            <p className="error">This field is required</p>
+          )}
         </Form>
       </Modal.Body>
       <Modal.Footer>

@@ -15,7 +15,12 @@ const StudyProgramForm = ({ show, setShow }) => {
     dispatch(getSubjectsNames(token));
   }, [token, dispatch]);
 
-  const { register, handleSubmit, control } = useForm({
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       name: "",
       length: null,
@@ -50,6 +55,10 @@ const StudyProgramForm = ({ show, setShow }) => {
         <Form>
           <Form.Label>Study program name</Form.Label>
           <Form.Control {...register("name", { required: true })} />
+          {errors?.name?.type === "required" && (
+            <p className="error">This field is required</p>
+          )}
+
           <Row>
             <Col md={3}>
               <Form.Label>Length</Form.Label>
@@ -57,6 +66,9 @@ const StudyProgramForm = ({ show, setShow }) => {
                 {...register("length", { required: true })}
                 type="number"
               />
+              {errors?.length?.type === "required" && (
+                <p className="error">This field is required</p>
+              )}
             </Col>
             <Col md={4}>
               <Form.Label>Language</Form.Label>
@@ -64,6 +76,9 @@ const StudyProgramForm = ({ show, setShow }) => {
                 <option value="czech">Czech</option>
                 <option value="english">English</option>
               </Form.Select>
+              {errors?.language?.type === "required" && (
+                <p className="error">This field is required</p>
+              )}
             </Col>
             <Col md={5}>
               <Form.Label>Degree of study</Form.Label>
@@ -72,6 +87,9 @@ const StudyProgramForm = ({ show, setShow }) => {
                 <option value="Bc.">Bc.</option>
                 <option value="Ing.">Ing.</option>
               </Form.Select>
+              {errors?.degree?.type === "required" && (
+                <p className="error">This field is required</p>
+              )}
             </Col>
           </Row>
           <Form.Label>Field</Form.Label>
@@ -80,13 +98,20 @@ const StudyProgramForm = ({ show, setShow }) => {
             <option value="it">Information technologies</option>
             <option value="business">Business and economics</option>
           </Form.Select>
+          {errors?.field?.type === "required" && (
+            <p className="error">This field is required</p>
+          )}
+
           <Form.Label>Image URL</Form.Label>
-          <Form.Control {...register("imageUrl", { required: true })} />
+          <Form.Control {...register("imageUrl", { required: false })} />
           <Form.Label>Description</Form.Label>
           <Form.Control
             as="textarea"
             {...register("description", { required: true })}
           />
+          {errors?.description?.type === "required" && (
+            <p className="error">This field is required</p>
+          )}
 
           <ListInputSubject
             subjectType="osubjects"
