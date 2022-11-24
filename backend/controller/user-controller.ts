@@ -107,7 +107,7 @@ router.delete(
         if (err) {
           return res.status(400).json(new ErrorResponse(err));
         }
-        return res.status(204);
+        return res.status(204).json(new SuccessResponse("deleted"));
       }
     );
   }
