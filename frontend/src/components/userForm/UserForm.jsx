@@ -7,7 +7,11 @@ import { useDispatch } from "react-redux";
 const UserForm = ({ show, setShow }) => {
   let dispatch = useDispatch();
   let { token } = useSelector((state) => state.login);
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       name: "",
       email: "",
@@ -37,13 +41,40 @@ const UserForm = ({ show, setShow }) => {
         <Form>
           <Form.Label>Full name</Form.Label>
           <Form.Control {...register("name", { required: true })} />
+          {errors?.name?.type === "required" && (
+            <p className="error">This field is required</p>
+          )}
           <Form.Label>Email</Form.Label>
-          <Form.Control {...register("email", { required: true })} />
+          <Form.Control
+            {...register("email", {
+              required: true,
+              pattern: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+            })}
+          />
+          {errors?.email?.type === "required" && (
+            <p className="error">This field is required</p>
+          )}
+          {errors?.email?.type === "pattern" && (
+            <p className="error">Invalid email adress</p>
+          )}
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
-            {...register("password", { required: true })}
+            {...register("password", {
+              required: true,
+              pattern: /^(?=.*[a-z])(?=.*[A-Z]).{6}/,
+            })}
           />
+          {errors?.password?.type === "required" && (
+            <p className="error">This field is required</p>
+          )}
+          {errors?.password?.type === "pattern" && (
+            <p className="error">
+              Password must have at least one uppercase (A-Z), one lowercase
+              (a-z) and at least 6 characters.
+            </p>
+          )}
+
           <Form.Label>Role</Form.Label>
           <Form.Select {...register("role", { required: true })}>
             <option value="admin">Administrator</option>
@@ -51,6 +82,9 @@ const UserForm = ({ show, setShow }) => {
             <option value="teacher">Teacher</option>
             <option value="student">Student</option>
           </Form.Select>
+          {errors?.role?.type === "required" && (
+            <p className="error">This field is required</p>
+          )}
         </Form>
       </Modal.Body>
       <Modal.Footer>
