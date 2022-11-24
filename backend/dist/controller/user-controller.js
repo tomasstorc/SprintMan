@@ -103,6 +103,7 @@ router.put("/:id", isAuthenticated_1.default, isAdmin_1.default, (req, res) => {
                 name: req.body.name,
                 email: req.body.email,
                 password: hash,
+                role: req.body.role,
             }, { runValidators: true, upsert: true, rawResult: true }, (err, updatedUser) => {
                 if (err) {
                     return res.status(400).json(new error_response_1.default(err));
@@ -111,6 +112,14 @@ router.put("/:id", isAuthenticated_1.default, isAdmin_1.default, (req, res) => {
                     .status(200)
                     .json(new success_response_1.default("updated", updatedUser.value));
             });
+        });
+    }
+    else {
+        User_1.default.findByIdAndUpdate(req.params.id, req.body, (err, updatedUser) => {
+            if (err) {
+                return res.status(400).json(new error_response_1.default(err));
+            }
+            return res.status(200).json(new success_response_1.default("updated"));
         });
     }
 });

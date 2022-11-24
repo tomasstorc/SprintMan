@@ -3,11 +3,10 @@ import { Form, Button, Row, Col, Modal } from "react-bootstrap";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { getSubjectsNames } from "../../redux/apiFetch/subject";
-
 import {
   putProgram,
   programDetail,
+  getStudyProgram,
 } from "../../redux/apiFetch/StudyProgramSlice";
 import { useEffect } from "react";
 import { useCallback } from "react";
@@ -36,7 +35,6 @@ const StudyProgramFormEdit = ({ show, setShow }) => {
     reset(res.payload.data);
   }, [dispatch, editId, reset]);
   useEffect(() => {
-    dispatch(getSubjectsNames(token));
     resetAsyncForm();
   }, [resetAsyncForm, token, dispatch]);
 
@@ -45,7 +43,11 @@ const StudyProgramFormEdit = ({ show, setShow }) => {
       token: token,
       body: data,
     };
-    dispatch(putProgram(programPost));
+    dispatch(putProgram(programPost))
+      .unwrap()
+      .then(() => {
+        dispatch(getStudyProgram());
+      });
   };
 
   return (

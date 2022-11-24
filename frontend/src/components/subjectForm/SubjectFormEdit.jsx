@@ -1,35 +1,45 @@
 import { useForm } from "react-hook-form";
 import { Form, Button, Row, Col, Modal } from "react-bootstrap";
-import ListInputMaterial from "./ListInputMaterial";
-import ListInputTopic from "./ListInputTopics";
+import { useCallback } from "react";
+
 import { useSelector } from "react-redux";
-import { postSubject } from "../../redux/apiFetch/subject";
 import { useDispatch } from "react-redux";
 import { getSubjects } from "../../redux/apiFetch/subject";
+import { getSubjectById, putSubject } from "../../redux/apiFetch/subject";
+import { useEffect } from "react";
 
-const SubjectForm = ({ show, setShow }) => {
-  let dispatch = useDispatch();
+const SubjectFormEdit = ({ show, setShow }) => {
   let { token } = useSelector((state) => state.login);
-  const { register, handleSubmit, control, reset } = useForm({
-    defaultValues: {
-      name: "",
-      credits: null,
-      language: "",
-      degree: "",
-      goal: "",
-      materials: [{ title: "", link: "" }],
-      topics: [{ name: "", materials: [{ title: "", link: "" }] }],
-      teacher: "",
-      supervisor: "",
-    },
+  let { editId, subjectToEdit } = useSelector((state) => state.subject);
+  const MYdefaultValues = {
+    name: subjectToEdit?.name,
+    credits: subjectToEdit?.credits,
+    language: subjectToEdit?.language,
+    degree: subjectToEdit?.degree,
+    goal: subjectToEdit?.goal,
+    teacher: subjectToEdit?.teacher,
+    supervisor: subjectToEdit?.supervisor,
+  };
+  const { register, handleSubmit, reset } = useForm({
+    defaultValues: MYdefaultValues,
   });
+  let dispatch = useDispatch();
+
+  const resetAsyncForm = useCallback(async () => {
+    let res = await dispatch(getSubjectById(editId));
+    reset(res.payload.data);
+  }, [dispatch, editId, reset]);
+  useEffect(() => {
+    resetAsyncForm();
+  }, [resetAsyncForm]);
+
   const onSubmit = (data) => {
-    console.log(data);
     let subjectPost = {
       token: token,
       body: data,
+      id: editId,
     };
-    dispatch(postSubject(subjectPost))
+    dispatch(putSubject(subjectPost))
       .unwrap()
       .then(() => {
         dispatch(getSubjects(token));
@@ -73,22 +83,7 @@ const SubjectForm = ({ show, setShow }) => {
             as="textarea"
             {...register("goal", { required: true })}
           />
-          <ListInputMaterial
-            register={register}
-            name="materials"
-            control={control}
-          />
 
-          {/* <Form.Control
-            {...register("materials", { required: true })}
-            placeholder="Materials"
-          /> */}
-          <ListInputTopic register={register} control={control} reset={reset} />
-
-          {/* <Form.Control
-            {...register("topics", { required: true })}
-            placeholder="Topics"
-          /> */}
           <Form.Label>Teacher</Form.Label>
           <Form.Control {...register("teacher", { required: true })} />
           <Form.Label>Supervisor</Form.Label>
@@ -113,4 +108,4 @@ const SubjectForm = ({ show, setShow }) => {
   );
 };
 
-export default SubjectForm;
+export default SubjectFormEdit;

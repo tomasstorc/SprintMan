@@ -11,7 +11,7 @@ const UserTable = ({ token, title }) => {
   let dispatch = useDispatch();
   const [show, setShow] = useState(false);
 
-  const { loading, users = [] } = useSelector((state) => state.users);
+  const { loading, users } = useSelector((state) => state.users);
 
   useEffect(() => {
     dispatch(getUsers(token));

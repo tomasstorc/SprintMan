@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Form, Button, Modal } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { postUser } from "../../redux/apiFetch/users";
+import { getUsers, postUser } from "../../redux/apiFetch/users";
 import { useDispatch } from "react-redux";
 
 const UserForm = ({ show, setShow }) => {
@@ -21,7 +21,12 @@ const UserForm = ({ show, setShow }) => {
       token: token,
       body: data,
     };
-    dispatch(postUser(userPost));
+    dispatch(postUser(userPost))
+      .unwrap()
+      .then(() => {
+        dispatch(getUsers(token));
+        setShow(!show);
+      });
   };
   return (
     <Modal show={show}>

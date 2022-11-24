@@ -2,7 +2,7 @@ import { useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { Form, Button, Modal } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { editUser, getUserById } from "../../redux/apiFetch/users";
+import { editUser, getUserById, getUsers } from "../../redux/apiFetch/users";
 import { useDispatch } from "react-redux";
 
 const UserFormEdit = ({ show, setShow, name, email, role, password }) => {
@@ -38,7 +38,13 @@ const UserFormEdit = ({ show, setShow, name, email, role, password }) => {
       token: token,
       body: data,
     };
-    dispatch(editUser(userEdit));
+
+    dispatch(editUser(userEdit))
+      .unwrap()
+      .then(() => {
+        dispatch(getUsers(token));
+        setShow(!show);
+      });
   };
   return (
     <Modal show={show}>
@@ -54,7 +60,7 @@ const UserFormEdit = ({ show, setShow, name, email, role, password }) => {
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
-            {...register("password", { required: true })}
+            {...register("password", { required: false })}
           />
           <Form.Label>Role</Form.Label>
           <Form.Select {...register("role", { required: true })}>
