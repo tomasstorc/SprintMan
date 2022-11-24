@@ -29,6 +29,19 @@ export const getLogin = createAsyncThunk(
   }
 );
 
+export const refreshToken = createAsyncThunk(
+  "login/refreshToken",
+  async (token) => {
+    const res = await fetch("/api/auth/refresh", {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }).then((data) => data.json());
+    return res;
+  }
+);
+
 export const getLogout = createAsyncThunk("login/getLogout", async (data) => {
   const res = fetch("/api/auth/logout").then((data) => data.json());
   return res;
@@ -78,6 +91,23 @@ export const loginSlice = createSlice({
     [getLogout.fulfilled]: (state) => {
       state.token = "";
       state.user = undefined;
+    },
+    [refreshToken.rejected]: (state, action) => {
+      state.error = true;
+      state.loading = false;
+      state.errorMsg = action.payload.errorMsg;
+    },
+    [refreshToken.fulfilled]: (state, { payload }) => {
+      if (payload.data) {
+        state.loading = false;
+        state.token = payload.data;
+        state.errorMsg = undefined;
+        state.user = jwt(payload.data);
+      } else {
+        state.loading = false;
+        state.error = true;
+        state.errorMsg = payload.errorMsg;
+      }
     },
   },
 });
