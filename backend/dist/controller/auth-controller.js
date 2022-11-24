@@ -10,6 +10,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const User_1 = __importDefault(require("../model/User"));
 const error_response_1 = __importDefault(require("../response/error-response"));
 const success_response_1 = __importDefault(require("../response/success-response"));
+const isAuthenticated_1 = __importDefault(require("../middleware/isAuthenticated"));
 const router = express_1.default.Router();
 router.post("/login", (req, res) => {
     const body = req.body;
@@ -47,6 +48,20 @@ router.post("/login", (req, res) => {
             });
         }
     });
+});
+router.get("/refresh", isAuthenticated_1.default, (req, res) => {
+    var _a, _b, _c;
+    res.clearCookie("token");
+    let payload = {
+        name: (_a = req.user) === null || _a === void 0 ? void 0 : _a.name,
+        email: (_b = req.user) === null || _b === void 0 ? void 0 : _b.email,
+        role: (_c = req.user) === null || _c === void 0 ? void 0 : _c.role,
+    };
+    const token = jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET, {
+        expiresIn: "7d",
+    });
+    res.cookie("token", token, { secure: true });
+    res.status(200).json(new success_response_1.default("refreshed", token));
 });
 router.get("/logout", (req, res) => {
     res.clearCookie("token");
