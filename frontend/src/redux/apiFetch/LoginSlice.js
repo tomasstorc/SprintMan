@@ -10,6 +10,7 @@ const initialState = {
   error: false,
   errorMsg: undefined,
   user: null,
+  refresh: false,
 };
 
 export const getLogin = createAsyncThunk(
@@ -57,6 +58,16 @@ export const loginSlice = createSlice({
         state.user = jwt(cookies.get("token"));
       } else {
         state.user = undefined;
+      }
+    },
+    checkRefresh: (state) => {
+      let days =
+        new Date(state.user.exp * 1000).getDate() - new Date().getDate();
+
+      if (days < 4) {
+        state.refresh = true;
+      } else {
+        state.refresh = false;
       }
     },
   },
@@ -113,4 +124,4 @@ export const loginSlice = createSlice({
 });
 
 export const loginReducer = loginSlice.reducer;
-export const { parseToken } = loginSlice.actions;
+export const { parseToken, checkRefresh } = loginSlice.actions;
