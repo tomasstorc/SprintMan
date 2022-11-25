@@ -27,11 +27,24 @@ const SubjectPage = () => {
   const { loading, subjectDetail } = useSelector(
     (state) => state.subjectDetail
   );
+  const { user } = useSelector((state) => state.login);
   useEffect(() => {
     dispatch(getSubjectDetail(id));
   }, [dispatch, id]);
   if (loading) return <p>Loading...</p>;
   console.log(option);
+  const renderMaterials = () => {
+    if (user) {
+      switch (option) {
+        case type.all:
+          return <MaterialList materials={subjectDetail?.materials} />;
+        case type.topic:
+          return <TopicList topics={subjectDetail?.topics} />;
+        default:
+          break;
+      }
+    }
+  };
   return (
     <div>
       <Header name={subjectDetail?.name} />
@@ -59,26 +72,31 @@ const SubjectPage = () => {
       </Row>
       <Description info={subjectDetail?.goal} />
       <Container>
-        <h3>Learning materials</h3>
-        <Button
-          variant={`${option === type.topic ? "dark" : "outline-dark"}`}
-          onClick={() => setOption(type.topic)}
-        >
-          <AiFillProfile size={25} />
-          Show by topics
-        </Button>
-        <Button
-          variant={`${option === type.all ? "dark" : "outline-dark"}`}
-          onClick={() => setOption(type.all)}
-        >
-          <AiFillFile size={25} />
-          Show all materials
-        </Button>
+        {user && (
+          <div>
+            <h3>Learning materials</h3>
+            <Button
+              variant={`${option === type.topic ? "dark" : "outline-dark"}`}
+              onClick={() => setOption(type.topic)}
+            >
+              <AiFillProfile size={25} />
+              Show by topics
+            </Button>
+            <Button
+              variant={`${option === type.all ? "dark" : "outline-dark"}`}
+              onClick={() => setOption(type.all)}
+            >
+              <AiFillFile size={25} />
+              Show all materials
+            </Button>
+          </div>
+        )}
 
-        {option === type.all && (
+        {/* {option === type.all && (
           <MaterialList materials={subjectDetail?.materials} />
         )}
-        {option === type.topic && <TopicList topics={subjectDetail?.topics} />}
+        {option === type.topic && <TopicList topics={subjectDetail?.topics} />} */}
+        {renderMaterials()}
       </Container>
       <Container className="mt-3">
         <Row>
