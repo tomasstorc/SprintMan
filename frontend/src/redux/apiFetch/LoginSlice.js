@@ -61,8 +61,11 @@ export const loginSlice = createSlice({
       }
     },
     checkRefresh: (state) => {
+      if (!state.user) {
+        return;
+      }
       let days =
-        new Date(state.user.exp * 1000).getDate() - new Date().getDate();
+        new Date(state.user?.exp * 1000).getDate() - new Date().getDate();
 
       if (days < 4) {
         state.refresh = true;
