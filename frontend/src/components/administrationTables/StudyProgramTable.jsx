@@ -11,7 +11,7 @@ import { MdModeEditOutline, MdDelete } from "react-icons/md";
 import StudyProgramFormEdit from "../studyProgramForm/StudyProgramFormEdit";
 import DeleteModal from "../DeleteModal";
 
-const StudyProgramTable = ({ title }) => {
+const StudyProgramTable = ({ title, omitted }) => {
   const [show, setShow] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const dispatch = useDispatch();
@@ -72,6 +72,7 @@ const StudyProgramTable = ({ title }) => {
       ),
       sortable: false,
       maxWidth: "300px",
+      omit: omitted,
     },
   ];
 

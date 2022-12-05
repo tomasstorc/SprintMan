@@ -9,7 +9,7 @@ import { setDeleteId } from "../../redux/apiFetch/deleteSlice";
 import SubjectFormEdit from "../subjectForm/SubjectFormEdit";
 import DeleteModal from "../DeleteModal";
 
-const SubjetsTable = ({ token, title }) => {
+const SubjetsTable = ({ token, title, omitted }) => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
@@ -69,6 +69,7 @@ const SubjetsTable = ({ token, title }) => {
       ),
       sortable: false,
       maxWidth: "300px",
+      omit: omitted,
     },
   ];
 

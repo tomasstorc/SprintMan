@@ -49,7 +49,7 @@ const StudyProgramForm = ({ show, setShow }) => {
   return (
     <Modal show={show}>
       <Modal.Header>
-        <Modal.Title>Create subject</Modal.Title>
+        <Modal.Title>Create study program</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
