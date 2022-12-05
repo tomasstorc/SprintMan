@@ -4,6 +4,7 @@ import { getStudyProgram } from "../redux/apiFetch/StudyProgramSlice";
 import StudyProgram from "./StudyProgram";
 import Row from "react-bootstrap/Row";
 import { Container } from "react-bootstrap";
+import Loading from "./Loading";
 
 const BusinessProgramList = () => {
   const dispatch = useDispatch();
@@ -11,7 +12,7 @@ const BusinessProgramList = () => {
   useEffect(() => {
     dispatch(getStudyProgram());
   }, [dispatch]);
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
   return (
     <Container>
       <h3 className="text-center p-4">Business and economics</h3>
