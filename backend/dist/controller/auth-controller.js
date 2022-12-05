@@ -31,7 +31,7 @@ router.post("/login", (req, res) => {
                 else if (!result) {
                     res
                         .status(401)
-                        .json(new error_response_1.default("username or password incorrect"));
+                        .json(new error_response_1.default("Username or password is incorrect"));
                 }
                 else {
                     const payload = {

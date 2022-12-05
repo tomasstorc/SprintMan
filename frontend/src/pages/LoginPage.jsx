@@ -18,12 +18,10 @@ const LoginPage = () => {
     setLoginData({ ...loginData, [name]: value });
   };
   const handleSubmit = () => {
-    console.log(loginData);
     dispatch(getLogin(loginData));
   };
 
   if (loading) return <p>Loading...</p>;
-  if (error) return errorMsg;
 
   return (
     <div
@@ -42,6 +40,7 @@ const LoginPage = () => {
           borderRadius: "10px",
         }}
       >
+        {error && <p>{errorMsg}</p>}
         <FloatingLabel
           controlId="floatingInput"
           label="Email address"

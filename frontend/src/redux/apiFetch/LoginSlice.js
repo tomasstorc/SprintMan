@@ -109,7 +109,9 @@ export const loginSlice = createSlice({
     [refreshToken.rejected]: (state, action) => {
       state.error = true;
       state.loading = false;
-      state.errorMsg = action.payload.errorMsg;
+      state.errorMsg = action.payload?.errorMsg
+        ? action.payload.errorMsg
+        : "something went wrong";
     },
     [refreshToken.fulfilled]: (state, { payload }) => {
       if (payload.data) {
