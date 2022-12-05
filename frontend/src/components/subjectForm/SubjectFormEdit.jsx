@@ -54,7 +54,7 @@ const SubjectFormEdit = ({ show, setShow }) => {
   return (
     <Modal show={show}>
       <Modal.Header>
-        <Modal.Title>Create subject</Modal.Title>
+        <Modal.Title>Edit subject</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>

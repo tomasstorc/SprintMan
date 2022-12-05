@@ -54,7 +54,7 @@ const UserFormEdit = ({ show, setShow, name, email, role, password }) => {
   return (
     <Modal show={show}>
       <Modal.Header>
-        <Modal.Title>Create user</Modal.Title>
+        <Modal.Title>Edit user</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>

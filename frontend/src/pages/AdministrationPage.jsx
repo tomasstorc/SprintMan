@@ -93,7 +93,12 @@ const AdministrationPage = () => {
               {showSubject && (
                 <SubjectForm show={showSubject} setShow={setShowSubject} />
               )}
-              <SubjetsTable title={type.subjects} token={token} />
+              <SubjetsTable
+                title={type.subjects}
+                token={token}
+                role={user?.role}
+                omitted={user?.role === "editor"}
+              />
             </>
           )}
           {table === type?.programs && (
@@ -115,7 +120,10 @@ const AdministrationPage = () => {
                   setShow={setShowProgram}
                 />
               )}
-              <StudyProgramTable title={type?.programs} />{" "}
+              <StudyProgramTable
+                title={type?.programs}
+                omitted={user?.role === "editor"}
+              />{" "}
             </>
           )}
         </Row>
