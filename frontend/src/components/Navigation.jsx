@@ -5,9 +5,11 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { BiUserCircle } from "react-icons/bi";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Navigation = () => {
   const { user } = useSelector((state) => state.login);
+  const { programList } = useSelector((state) => state.studyProgram);
 
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -22,7 +24,7 @@ const Navigation = () => {
           </Nav>
           <Nav>
             <NavDropdown title="Study programs" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/">Software development</NavDropdown.Item>
+              {/* <NavDropdown.Item href="/">Software development</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">
                 Software engeneering and big data
               </NavDropdown.Item>
@@ -32,7 +34,19 @@ const Navigation = () => {
               </NavDropdown.Item>
               <NavDropdown.Item href="#action/3.4">
                 Applied economics and data analysis
-              </NavDropdown.Item>
+              </NavDropdown.Item> */}
+              {programList?.map((program) => {
+                return (
+                  <NavDropdown.Item>
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      to={`/program/${program._id}`}
+                    >
+                      {program.name}
+                    </Link>
+                  </NavDropdown.Item>
+                );
+              })}
             </NavDropdown>
             {user ? (
               <NavDropdown

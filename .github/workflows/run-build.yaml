@@ -52,4 +52,4 @@ jobs:
 
       - name: "restart app"
         run: |
-          az webapp restart -n uusubjectman -g subjectman-rg
+          az webapp restart -n subjectman -g subjectman-rg
