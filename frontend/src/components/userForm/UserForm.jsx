@@ -30,6 +30,10 @@ const UserForm = ({ show, setShow }) => {
       .then(() => {
         dispatch(getUsers(token));
         setShow(!show);
+      })
+      .catch(() => {
+        dispatch(getUsers(token));
+        setShow(!show);
       });
   };
   return (
