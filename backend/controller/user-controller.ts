@@ -8,6 +8,7 @@ import ErrorResponse from "../response/error-response";
 import SuccessResponse from "../response/success-response";
 import bcrypt from "bcrypt";
 import validatePassword from "../utils/validate-password";
+import sendEmail from "../utils/send-email";
 
 const router = express.Router();
 
@@ -82,12 +83,11 @@ router.post("/", isAuthenticated, isAdmin, (req: Request, res: Response) => {
                 password: hash,
                 role: body.role,
               });
-              user.save(
-                (err: CallbackError | undefined, user: IUser | undefined) => {
-                  if (err) return res.status(400).json(new ErrorResponse(err));
-                  return res.json(new SuccessResponse("User created"));
-                }
-              );
+              user.save((err: CallbackError | undefined, user: any) => {
+                if (err) return res.status(400).json(new ErrorResponse(err));
+                sendEmail(user?.email, user?.name, user._id);
+                return res.json(new SuccessResponse("User created"));
+              });
             }
           );
         }
