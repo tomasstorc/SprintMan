@@ -10,9 +10,9 @@ const isAuthenticated: RequestHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  if (req.query.key) {
+  if (req.body.key) {
     AuthKey.findOne(
-      { key: req.query.key },
+      { key: req.body.key },
       (err: CallbackError, foundKey: any) => {
         if (err) {
           return res.status(403).json(new ErrorResponse("unauthorized"));

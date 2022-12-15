@@ -19,7 +19,7 @@ const sendEmail = (to, name, id, key) => {
     let message = {
         from: "SubjectMan <no-reply@uusubjectman.com>",
         to: to,
-        subject: "Welcome to subject man",
+        subject: "Welcome to Subject Man",
         html: `
     <h1>Welcome ${name}!</h1><br>
     <p>Your account was successfully created, you can set your own password at this <a href="https://uusubjectman.com/changepassword/${id}?authKey=${key}">link</a>

@@ -7,8 +7,8 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const error_response_1 = __importDefault(require("../response/error-response"));
 const AuthKey_1 = __importDefault(require("../model/AuthKey"));
 const isAuthenticated = (req, res, next) => {
-    if (req.query.key) {
-        AuthKey_1.default.findOne({ key: req.query.key }, (err, foundKey) => {
+    if (req.body.key) {
+        AuthKey_1.default.findOne({ key: req.body.key }, (err, foundKey) => {
             if (err) {
                 return res.status(403).json(new error_response_1.default("unauthorized"));
             }
