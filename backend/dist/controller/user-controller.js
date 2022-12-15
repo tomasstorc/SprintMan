@@ -12,6 +12,8 @@ const success_response_1 = __importDefault(require("../response/success-response
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const validate_password_1 = __importDefault(require("../utils/validate-password"));
 const send_email_1 = __importDefault(require("../utils/send-email"));
+const AuthKey_1 = __importDefault(require("../model/AuthKey"));
+const crypto_1 = __importDefault(require("crypto"));
 const router = express_1.default.Router();
 router.get("/", isAuthenticated_1.default, isAdmin_1.default, (req, res) => {
     let options = new Object();
@@ -82,7 +84,12 @@ router.post("/", isAuthenticated_1.default, isAdmin_1.default, (req, res) => {
                     user.save((err, user) => {
                         if (err)
                             return res.status(400).json(new error_response_1.default(err));
-                        (0, send_email_1.default)(user === null || user === void 0 ? void 0 : user.email, user === null || user === void 0 ? void 0 : user.name, user._id);
+                        let tmp = crypto_1.default.randomBytes(20).toString("hex");
+                        let authKey = new AuthKey_1.default({
+                            key: tmp,
+                        });
+                        authKey.save();
+                        (0, send_email_1.default)(user === null || user === void 0 ? void 0 : user.email, user === null || user === void 0 ? void 0 : user.name, user._id, tmp);
                         return res.json(new success_response_1.default("User created"));
                     });
                 });
@@ -110,6 +117,8 @@ router.put("/:id", isAuthenticated_1.default, isAdmin_1.default, (req, res) => {
                 if (err) {
                     return res.status(400).json(new error_response_1.default(err));
                 }
+                if (req.query.key)
+                    AuthKey_1.default.findOneAndDelete({ key: req.query.key });
                 return res
                     .status(200)
                     .json(new success_response_1.default("updated", updatedUser.value));

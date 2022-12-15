@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const nodemailer_1 = __importDefault(require("nodemailer"));
-const sendEmail = (to, name, id) => {
+const sendEmail = (to, name, id, key) => {
     const options = {
         host: "mail.privateemail.com",
         port: 465,
@@ -22,7 +22,7 @@ const sendEmail = (to, name, id) => {
         subject: "Welcome to subject man",
         html: `
     <h1>Welcome ${name}!</h1><br>
-    <p>Your account was successfully created, you can set your own password at this <a href="https://uusubjectman.com/changepassword/${id}">link</a>
+    <p>Your account was successfully created, you can set your own password at this <a href="https://uusubjectman.com/changepassword/${id}?authKey=${key}">link</a>
     `,
     };
     transporter.sendMail(message);

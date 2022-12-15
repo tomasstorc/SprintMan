@@ -9,6 +9,9 @@ import SuccessResponse from "../response/success-response";
 import bcrypt from "bcrypt";
 import validatePassword from "../utils/validate-password";
 import sendEmail from "../utils/send-email";
+import AuthKey from "../model/AuthKey";
+import crypto from "crypto";
+import IAuthKey from "../interface/auth-key";
 
 const router = express.Router();
 
@@ -85,7 +88,12 @@ router.post("/", isAuthenticated, isAdmin, (req: Request, res: Response) => {
               });
               user.save((err: CallbackError | undefined, user: any) => {
                 if (err) return res.status(400).json(new ErrorResponse(err));
-                sendEmail(user?.email, user?.name, user._id);
+                let tmp = crypto.randomBytes(20).toString("hex");
+                let authKey = new AuthKey<IAuthKey>({
+                  key: tmp,
+                });
+                authKey.save();
+                sendEmail(user?.email, user?.name, user._id, tmp);
                 return res.json(new SuccessResponse("User created"));
               });
             }
@@ -132,6 +140,7 @@ router.put("/:id", isAuthenticated, isAdmin, (req: Request, res: Response) => {
             if (err) {
               return res.status(400).json(new ErrorResponse(err));
             }
+            if (req.query.key) AuthKey.findOneAndDelete({ key: req.query.key });
             return res
               .status(200)
               .json(new SuccessResponse("updated", updatedUser.value));

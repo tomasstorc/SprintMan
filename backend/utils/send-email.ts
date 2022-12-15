@@ -2,7 +2,12 @@ import mongoose from "mongoose";
 import nodemailer from "nodemailer";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
 
-const sendEmail = (to: string, name: string, id: mongoose.Types.ObjectId) => {
+const sendEmail = (
+  to: string,
+  name: string,
+  id: mongoose.Types.ObjectId,
+  key: string
+) => {
   const options: SMTPTransport.Options = {
     host: "mail.privateemail.com",
     port: 465,
@@ -21,7 +26,7 @@ const sendEmail = (to: string, name: string, id: mongoose.Types.ObjectId) => {
     subject: "Welcome to subject man",
     html: `
     <h1>Welcome ${name}!</h1><br>
-    <p>Your account was successfully created, you can set your own password at this <a href="https://uusubjectman.com/changepassword/${id}">link</a>
+    <p>Your account was successfully created, you can set your own password at this <a href="https://uusubjectman.com/changepassword/${id}?authKey=${key}">link</a>
     `,
   };
   transporter.sendMail(message);
