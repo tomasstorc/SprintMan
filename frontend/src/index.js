@@ -11,6 +11,8 @@ import SubjectPage from "./pages/SubjectPage";
 import StudyPage from "./pages/StudyPage";
 import AdministrationPage from "./pages/AdministrationPage";
 
+import ChangePasswordPage from "./pages/ChangePasswordPage";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -23,6 +25,10 @@ root.render(
             <Route path="/administration" element={<AdministrationPage />} />
             <Route path="/program/:id" element={<StudyProgrammePage />} />
             <Route path="/subject/:id" element={<SubjectPage />} />
+            <Route
+              path="/changepassword/:id"
+              element={<ChangePasswordPage />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>
