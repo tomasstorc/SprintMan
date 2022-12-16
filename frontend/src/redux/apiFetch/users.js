@@ -5,6 +5,9 @@ const initialState = {
   userToEdit: {},
   editId: null,
   loading: false,
+  passwordUpdated: false,
+  errorMsg: "",
+  pwUpdatedMsg: "",
 };
 
 export const getUsers = createAsyncThunk(
@@ -60,6 +63,25 @@ export const editUser = createAsyncThunk(
       headers: {
         "Content-Type": "application/json",
         authorization: `Bearer ${data.token}`,
+      },
+
+      body: JSON.stringify(data.body),
+    })
+      .then((data) => {
+        return data.json();
+      })
+      .catch((err) => err);
+    return res;
+  }
+);
+
+export const setNewPasswordApi = createAsyncThunk(
+  "user/setNewPasswordApi",
+  async (data) => {
+    const res = await fetch(`/api/user/${data.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
       },
 
       body: JSON.stringify(data.body),
@@ -133,6 +155,25 @@ export const usersSlice = createSlice({
     [getUserById.fulfilled]: (state, action) => {
       state.loading = false;
       state.userToEdit = action.payload.data;
+    },
+    [setNewPasswordApi.pending]: (state) => {
+      state.loading = true;
+    },
+    [setNewPasswordApi.rejected]: (state) => {
+      state.loading = false;
+      state.error = true;
+    },
+    [setNewPasswordApi.fulfilled]: (state, action) => {
+      state.loading = false;
+      if (action.payload.status === "error") {
+        state.error = true;
+        state.errorMsg = "Error: You are not authorized for this operation";
+      } else {
+        state.passwordUpdated = true;
+        state.error = false;
+        state.errorMsg = "";
+        state.pwUpdatedMsg = "Passowrd updated you may login now.";
+      }
     },
   },
 });
