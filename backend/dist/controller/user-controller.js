@@ -107,6 +107,7 @@ router.delete("/:id", isAuthenticated_1.default, isAdmin_1.default, (req, res) =
 });
 router.put("/:id", isAuthenticated_1.default, isAdmin_1.default, (req, res) => {
     if (req.body.password) {
+        console.log("here");
         bcrypt_1.default.hash(req.body.password, 10, (err, hash) => {
             User_1.default.findByIdAndUpdate(req.params.id, {
                 name: req.body.name,
