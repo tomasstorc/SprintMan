@@ -10,8 +10,6 @@ const isAuthenticated: RequestHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(req.body);
-
   if (req.body.key) {
     AuthKey.findOne(
       { key: req.body.key },
