@@ -10,6 +10,7 @@ const isAuthenticated = (req, res, next) => {
     if (req.body.key) {
         AuthKey_1.default.findOne({ key: req.body.key }, (err, foundKey) => {
             if (err) {
+                console.log(err);
                 return res.status(401).json(new error_response_1.default("unauthorized"));
             }
             if (!foundKey) {

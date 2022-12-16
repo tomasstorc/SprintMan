@@ -15,6 +15,8 @@ const isAuthenticated: RequestHandler = (
       { key: req.body.key },
       (err: CallbackError, foundKey: any) => {
         if (err) {
+          console.log(err);
+
           return res.status(401).json(new ErrorResponse("unauthorized"));
         }
         if (!foundKey) {
