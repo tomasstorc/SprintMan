@@ -22,7 +22,7 @@ const isAuthenticated: RequestHandler = (
         if (!foundKey) {
           return res.status(403).json(new ErrorResponse("invalid key"));
         }
-
+        req.skip = true;
         next();
       }
     );

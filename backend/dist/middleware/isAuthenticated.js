@@ -16,6 +16,7 @@ const isAuthenticated = (req, res, next) => {
             if (!foundKey) {
                 return res.status(403).json(new error_response_1.default("invalid key"));
             }
+            req.skip = true;
             next();
         });
     }

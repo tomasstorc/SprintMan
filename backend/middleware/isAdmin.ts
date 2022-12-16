@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import ErrorResponse from "../response/error-response";
 
 const isAdmin = (req: Request, res: Response, next: NextFunction) => {
+  if (req.skip) next();
   if (req?.user?.role === "admin") {
     next();
   } else {

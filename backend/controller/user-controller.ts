@@ -123,8 +123,6 @@ router.delete(
 
 router.put("/:id", isAuthenticated, isAdmin, (req: Request, res: Response) => {
   if (req.body.password) {
-    console.log("here");
-
     bcrypt.hash(
       req.body.password,
       10,

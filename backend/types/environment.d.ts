@@ -14,6 +14,7 @@ declare global {
     interface Request {
       user?: any;
       foundUser?: any;
+      skip: any;
     }
     interface User {
       role?: any;
