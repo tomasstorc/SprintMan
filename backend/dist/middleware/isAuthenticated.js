@@ -10,14 +10,13 @@ const isAuthenticated = (req, res, next) => {
     if (req.body.key) {
         AuthKey_1.default.findOne({ key: req.body.key }, (err, foundKey) => {
             if (err) {
-                console.log(err);
                 return res.status(401).json(new error_response_1.default("unauthorized"));
             }
             if (!foundKey) {
                 return res.status(403).json(new error_response_1.default("invalid key"));
             }
             req.skip = true;
-            next();
+            return next();
         });
     }
     else {
@@ -29,7 +28,7 @@ const isAuthenticated = (req, res, next) => {
             if (err)
                 return res.status(403).json({ status: "error", errors: [err] });
             req.user = user;
-            next();
+            return next();
         });
     }
 };
