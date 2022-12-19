@@ -123,8 +123,6 @@ router.delete(
 
 router.put("/:id", isAuthenticated, isAdmin, (req: Request, res: Response) => {
   if (req.body.password) {
-    console.log("here");
-
     bcrypt.hash(
       req.body.password,
       10,
@@ -142,7 +140,8 @@ router.put("/:id", isAuthenticated, isAdmin, (req: Request, res: Response) => {
             if (err) {
               return res.status(400).json(new ErrorResponse(err));
             }
-            if (req.query.key) AuthKey.findOneAndDelete({ key: req.query.key });
+            if (req.body.key) AuthKey.findOneAndDelete({ key: req.body.key });
+
             return res
               .status(200)
               .json(new SuccessResponse("updated", updatedUser.value));

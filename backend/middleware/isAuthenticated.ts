@@ -15,15 +15,14 @@ const isAuthenticated: RequestHandler = (
       { key: req.body.key },
       (err: CallbackError, foundKey: any) => {
         if (err) {
-          console.log(err);
-
           return res.status(401).json(new ErrorResponse("unauthorized"));
         }
         if (!foundKey) {
           return res.status(403).json(new ErrorResponse("invalid key"));
         }
+
         req.skip = true;
-        next();
+        return next();
       }
     );
   } else {
@@ -35,7 +34,7 @@ const isAuthenticated: RequestHandler = (
       if (err) return res.status(403).json({ status: "error", errors: [err] });
 
       req.user = user;
-      next();
+      return next();
     });
   }
 };

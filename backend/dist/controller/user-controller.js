@@ -107,7 +107,6 @@ router.delete("/:id", isAuthenticated_1.default, isAdmin_1.default, (req, res) =
 });
 router.put("/:id", isAuthenticated_1.default, isAdmin_1.default, (req, res) => {
     if (req.body.password) {
-        console.log("here");
         bcrypt_1.default.hash(req.body.password, 10, (err, hash) => {
             User_1.default.findByIdAndUpdate(req.params.id, {
                 name: req.body.name,
@@ -118,8 +117,8 @@ router.put("/:id", isAuthenticated_1.default, isAdmin_1.default, (req, res) => {
                 if (err) {
                     return res.status(400).json(new error_response_1.default(err));
                 }
-                if (req.query.key)
-                    AuthKey_1.default.findOneAndDelete({ key: req.query.key });
+                if (req.body.key)
+                    AuthKey_1.default.findOneAndDelete({ key: req.body.key });
                 return res
                     .status(200)
                     .json(new success_response_1.default("updated", updatedUser.value));
