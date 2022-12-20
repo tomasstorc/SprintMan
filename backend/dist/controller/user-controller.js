@@ -118,7 +118,7 @@ router.put("/:id", isAuthenticated_1.default, isAdmin_1.default, (req, res) => {
                     return res.status(400).json(new error_response_1.default(err));
                 }
                 if (req.body.key)
-                    AuthKey_1.default.findOneAndDelete({ key: req.body.key });
+                    AuthKey_1.default.findOneAndDelete({ key: req.body.key }).exec();
                 return res
                     .status(200)
                     .json(new success_response_1.default("updated", updatedUser.value));

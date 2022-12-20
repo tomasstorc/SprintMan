@@ -140,7 +140,8 @@ router.put("/:id", isAuthenticated, isAdmin, (req: Request, res: Response) => {
             if (err) {
               return res.status(400).json(new ErrorResponse(err));
             }
-            if (req.body.key) AuthKey.findOneAndDelete({ key: req.body.key });
+            if (req.body.key)
+              AuthKey.findOneAndDelete({ key: req.body.key }).exec();
 
             return res
               .status(200)
