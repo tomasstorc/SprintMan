@@ -38,6 +38,7 @@ const SubjectForm = ({ show, setShow }) => {
     dispatch(postSubject(subjectPost))
       .unwrap()
       .then(() => {
+        setShow(!show);
         dispatch(getSubjects(token));
       });
   };

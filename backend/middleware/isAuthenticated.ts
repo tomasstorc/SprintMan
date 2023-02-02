@@ -4,6 +4,7 @@ import IUser from "../interface/user";
 import ErrorResponse from "../response/error-response";
 import AuthKey from "../model/AuthKey";
 import { CallbackError } from "mongoose";
+import { resolveSoa } from "dns";
 
 const isAuthenticated: RequestHandler = (
   req: Request,
@@ -40,3 +41,5 @@ const isAuthenticated: RequestHandler = (
 };
 
 export default isAuthenticated;
+
+
