@@ -54,7 +54,7 @@ const StudyProgrammePage = () => {
           {programDetail?.osubjects?.map((subject) => {
             console.log(subject);
             return (
-              <Col md={"auto"}>
+              <Col md={"auto"} className="mb-4">
                 <Subject
                   title={subject.name}
                   credits={subject.credits}
@@ -67,7 +67,7 @@ const StudyProgrammePage = () => {
           {programDetail?.ossubjects?.map((subject) => {
             console.log(subject);
             return (
-              <Col md={"auto"}>
+              <Col md={"auto"} className="mb-4">
                 <Subject
                   title={subject.name}
                   credits={subject.credits}
@@ -80,7 +80,7 @@ const StudyProgrammePage = () => {
           {programDetail?.ssubjects?.map((subject) => {
             console.log(subject);
             return (
-              <Col md={"auto"}>
+              <Col md={"auto"} className="mb-4">
                 <Subject
                   key={subject._id}
                   title={subject.name}
