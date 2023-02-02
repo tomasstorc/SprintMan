@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Button, Row, Col, Modal, Form } from "react-bootstrap";
+import { Button, Modal, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { addSubjects } from "../../redux/apiFetch/StudyProgramSlice";
 import { getSubjectsNames } from "../../redux/apiFetch/subject";
