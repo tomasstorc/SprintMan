@@ -6,6 +6,7 @@ const initialState = {
   editProgram: {},
   loading: false,
   error: false,
+  subject: false,
   status: "",
 };
 
@@ -48,6 +49,25 @@ export const postProgram = createAsyncThunk(
   }
 );
 
+export const addSubjects = createAsyncThunk(
+  "studyProgram/addSubjects",
+  async (data, thunkAPI) => {
+    const res = await fetch(`/api/programme/${data.pid}/${data.stype}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${data.token}`,
+      },
+
+      body: JSON.stringify(data.body),
+    }).then((data) => {
+      thunkAPI.dispatch(getStudyProgram());
+      return data.json();
+    });
+    return res;
+  }
+);
+
 export const putProgram = createAsyncThunk(
   "studyProgram/putProgram",
   async (data, thunkAPI) => {
@@ -73,6 +93,9 @@ export const studyProgramSlice = createSlice({
   reducers: {
     setEditId: (state, action) => {
       state.editId = action.payload;
+    },
+    setSubject: (state, action) => {
+      state.subject = action.payload;
     },
   },
   extraReducers: {
@@ -120,5 +143,5 @@ export const studyProgramSlice = createSlice({
   },
 });
 
-export const { setEditId } = studyProgramSlice.actions;
+export const { setEditId, setSubject } = studyProgramSlice.actions;
 export const studyProgramReducer = studyProgramSlice.reducer;

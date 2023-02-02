@@ -5,11 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getStudyProgram,
   setEditId,
+  setSubject,
 } from "../../redux/apiFetch/StudyProgramSlice";
 import { setDeleteId } from "../../redux/apiFetch/deleteSlice";
 import { MdModeEditOutline, MdDelete } from "react-icons/md";
 import StudyProgramFormEdit from "../studyProgramForm/StudyProgramFormEdit";
 import DeleteModal from "../DeleteModal";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 
 const StudyProgramTable = ({ title, omitted }) => {
   const [show, setShow] = useState(false);
@@ -20,25 +22,24 @@ const StudyProgramTable = ({ title, omitted }) => {
       name: "Study program name",
       selector: (row) => row.name,
       sortable: true,
-      maxWidth: "300px",
     },
     {
       name: "Degree",
       selector: (row) => row.degree,
       sortable: false,
-      maxWidth: "300px",
+      maxWidth: "100px",
     },
     {
       name: "Language",
       selector: (row) => row.language,
       sortable: false,
-      maxWidth: "300px",
+      maxWidth: "100px",
     },
     {
       name: "Length",
       selector: (row) => row.length,
       sortable: false,
-      maxWidth: "300px",
+      maxWidth: "100px",
     },
     {
       name: "Description",
@@ -47,23 +48,45 @@ const StudyProgramTable = ({ title, omitted }) => {
       maxWidth: "300px",
     },
     {
+      name: "Subjects",
+      selector: (row) => (
+        <AiOutlinePlusCircle
+          size={20}
+          className="pointer"
+          onClick={() => {
+            console.log(row);
+            dispatch(setEditId(row._id));
+            dispatch(setSubject(true));
+            setShow(!show);
+          }}
+        />
+      ),
+      sortable: false,
+      maxWidth: "100px",
+    },
+    {
       name: "Edit",
       selector: (row) => (
         <MdModeEditOutline
+          size={20}
+          className="pointer"
           onClick={() => {
             console.log(row);
+            dispatch(setSubject(false));
             dispatch(setEditId(row._id));
             setShow(!show);
           }}
         />
       ),
       sortable: false,
-      maxWidth: "300px",
+      maxWidth: "100px",
     },
     {
       name: "Delete",
       selector: (row) => (
         <MdDelete
+          size={20}
+          className="text-danger pointer"
           onClick={() => {
             dispatch(setDeleteId(row._id));
             setShowDelete(!showDelete);
@@ -71,7 +94,7 @@ const StudyProgramTable = ({ title, omitted }) => {
         />
       ),
       sortable: false,
-      maxWidth: "300px",
+      maxWidth: "100px",
       omit: omitted,
     },
   ];

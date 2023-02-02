@@ -21,3 +21,6 @@
   display: inline;
   content: "⚠ ";
 }
+.pointer {
+  cursor: pointer;
+}

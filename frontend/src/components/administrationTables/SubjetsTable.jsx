@@ -48,6 +48,8 @@ const SubjetsTable = ({ token, title, omitted }) => {
       name: "Edit",
       selector: (row) => (
         <MdModeEditOutline
+          size={20}
+          className="pointer"
           onClick={() => {
             dispatch(setEditId(row._id));
             setShow(!show);
@@ -61,6 +63,8 @@ const SubjetsTable = ({ token, title, omitted }) => {
       name: "Delete",
       selector: (row) => (
         <MdDelete
+          size={20}
+          className="text-danger pointer"
           onClick={() => {
             dispatch(setDeleteId(row._id));
             setShowDelete(!showDelete);
