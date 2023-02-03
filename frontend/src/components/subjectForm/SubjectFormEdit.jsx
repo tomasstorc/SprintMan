@@ -48,6 +48,7 @@ const SubjectFormEdit = ({ show, setShow }) => {
       .unwrap()
       .then(() => {
         dispatch(getSubjects(token));
+        setShow(!show);
       });
   };
 
