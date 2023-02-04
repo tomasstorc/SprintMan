@@ -12,6 +12,9 @@ import StudyPage from "./pages/StudyPage";
 import AdministrationPage from "./pages/AdministrationPage";
 
 import ChangePasswordPage from "./pages/ChangePasswordPage";
+import disableLog from "./utils/disable-log";
+
+disableLog();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
